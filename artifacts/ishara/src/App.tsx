@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Auth from "@/pages/auth";
 import Home from "@/pages/home";
-import ConversationDetail from "@/pages/conversation";
 import { usePreferences } from "@/hooks/use-preferences";
 import { useEffect } from "react";
 
@@ -16,7 +15,6 @@ function Router() {
     <Switch>
       <Route path="/" component={Auth} />
       <Route path="/home" component={Home} />
-      <Route path="/conversation/:id" component={ConversationDetail} />
       <Route component={NotFound} />
     </Switch>
   );

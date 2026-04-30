@@ -4,8 +4,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { AccessibilityBar } from "@/components/layout/AccessibilityBar";
 import { AnimatedSign, signsList } from "@/components/signs/HandSigns";
 import { useAuth } from "@/hooks/use-auth";
-import { useConversations } from "@/hooks/use-conversations";
 import { usePreferences } from "@/hooks/use-preferences";
+import { PhrasebookSection } from "@/components/phrasebook/PhrasebookSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -202,108 +202,6 @@ function FeaturesGrid() {
   );
 }
 
-function ConversationsSection() {
-  const { conversations, createConversation } = useConversations();
-  const [, setLocation] = useLocation();
-  const [newTitle, setNewTitle] = useState("");
-  const [open, setOpen] = useState(false);
-
-  const handleCreate = () => {
-    if (newTitle.trim()) {
-      const conv = createConversation(newTitle);
-      setOpen(false);
-      setNewTitle("");
-      setLocation(`/conversation/${conv.id}`);
-    }
-  };
-
-  return (
-    <section id="conversations" className="py-20 bg-background">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-          <div>
-            <h2 className="text-3xl font-serif text-foreground mb-2">Saved Conversations</h2>
-            <p className="text-muted-foreground">Your history of interactions and stored phrases.</p>
-          </div>
-          
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                New conversation
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>New Conversation</DialogTitle>
-                <DialogDescription>
-                  Start a new thread to save signs and phrases.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="title"
-                    value={newTitle}
-                    onChange={(e) => setNewTitle(e.target.value)}
-                    placeholder="e.g., Doctor appointment"
-                    onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button onClick={handleCreate} disabled={!newTitle.trim()}>Create</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-
-        {conversations.length === 0 ? (
-          <Card className="border-dashed bg-muted/20">
-            <CardContent className="flex flex-col items-center justify-center py-16 text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-2">
-                <MessageSquare className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-medium text-foreground">No conversations yet</h3>
-              <p className="text-muted-foreground max-w-sm">Start a new conversation to begin saving signs and building your history.</p>
-              <Button variant="outline" onClick={() => setOpen(true)} className="mt-4">Start your first conversation</Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {conversations.map((conv) => (
-              <Card 
-                key={conv.id} 
-                className="group cursor-pointer hover:border-primary/50 hover:shadow-md transition-all"
-                onClick={() => setLocation(`/conversation/${conv.id}`)}
-              >
-                <CardContent className="p-6 flex flex-col h-full justify-between gap-6">
-                  <div>
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-lg line-clamp-2">{conv.title}</h3>
-                      <Badge variant="secondary" className="bg-secondary/20 text-secondary-foreground shrink-0 ml-2">Saved</Badge>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
-                      <Clock className="w-3 h-3" />
-                      {new Date(conv.dateISO).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center border-t border-border pt-4">
-                    <span className="text-sm text-muted-foreground">{conv.signCount} signs</span>
-                    <div className="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors text-primary">
-                      <ChevronRight className="w-4 h-4" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
 function TranslationSection() {
   return (
     <section id="translate" className="relative py-20 overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background">
@@ -363,7 +261,7 @@ export default function Home() {
         <TranslationSection />
         <DictionarySection />
         <FeaturesGrid />
-        <ConversationsSection />
+        <PhrasebookSection />
       </main>
     </div>
   );
