@@ -11,7 +11,7 @@ export type SignData = {
 export const signsList: SignData[] = [
   { id: "hello", english: "Hello", arabic: "مرحبا", description: "Wave hand side to side" },
   { id: "yes", english: "Yes", arabic: "نعم", description: "Nod fist up and down" },
-  { id: "thank_you", english: "Thank you", arabic: "شكراً", description: "Open hand moving from chin outward" },
+  { id: "thank_you", english: "Thank you", arabic: "شكراً", description: "Open hand moving from forehead outward" },
   { id: "me", english: "Me", arabic: "أنا", description: "Point to chest" },
   { id: "help", english: "Help", arabic: "مساعدة", description: "Fist on flat palm lifted upward" },
 ];
