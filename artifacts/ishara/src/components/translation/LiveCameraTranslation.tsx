@@ -140,7 +140,7 @@ export function LiveCameraTranslation() {
             </div>
             <div>
               <h3 className="font-semibold text-foreground">Sign to Arabic Text</h3>
-              <p className="text-xs text-muted-foreground">Live camera, ST-GCN model</p>
+              <p className="text-xs text-muted-foreground">Live camera translation</p>
             </div>
           </div>
           <div className="flex items-center gap-2">

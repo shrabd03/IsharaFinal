@@ -14,9 +14,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { User, MessageSquare, Hand, Settings2, Clock, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import signerPortrait from "@assets/image_1777542334064.png";
 import { LiveCameraTranslation } from "@/components/translation/LiveCameraTranslation";
 import { SpeechToSignTranslation } from "@/components/translation/SpeechToSignTranslation";
+
+function ILYHandLarge({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M8 13V4.5" />
+      <path d="M11 13v-2.5" />
+      <path d="M14 13v-2.5" />
+      <path d="M17 13V5.5" />
+      <path d="M8 14.5L4.5 13" />
+      <path d="M6 13h13a0 0 0 0 1 0 0v4a4 4 0 0 1-4 4h-5a4 4 0 0 1-4-4v-4z" />
+    </svg>
+  );
+}
 
 function Hero() {
   const scrollToSigns = () => {
@@ -76,33 +97,26 @@ function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
         >
-          <div className="relative w-[340px] h-[420px]">
-            <div className="absolute -inset-6 bg-secondary/20 blur-3xl rounded-full" />
-            <div className="absolute inset-0 rounded-[28px] overflow-hidden shadow-2xl ring-1 ring-white/15 bg-gradient-to-b from-primary/40 to-primary">
-              <img
-                src={signerPortrait}
-                alt="Ishara guide signing in Jordanian Arabic Sign Language"
-                className="w-full h-full object-cover"
-                loading="eager"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-primary-foreground">
-                <div>
-                  <p className="text-xs uppercase tracking-widest opacity-80">Featured signer</p>
-                  <p className="text-base font-semibold">Lina · Amman</p>
-                </div>
-                <Badge className="bg-secondary text-secondary-foreground border-0">LIU</Badge>
-              </div>
-            </div>
+          <div className="relative w-[360px] h-[420px] flex items-center justify-center">
+            <div className="absolute -inset-10 bg-secondary/25 blur-3xl rounded-full" />
+            <div className="absolute inset-6 rounded-[36px] bg-white/5 backdrop-blur-md ring-1 ring-white/15 shadow-2xl" />
             <motion.div
-              className="absolute -top-6 -left-10 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
+              className="relative text-primary-foreground"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ILYHandLarge className="w-56 h-56 drop-shadow-[0_8px_30px_rgba(0,0,0,0.35)]" />
+              <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-secondary-foreground border-0 px-4 py-1 text-sm">LIU</Badge>
+            </motion.div>
+            <motion.div
+              className="absolute top-2 -left-6 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <AnimatedSign signId="hello" />
             </motion.div>
             <motion.div
-              className="absolute -bottom-6 -right-8 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
+              className="absolute bottom-4 -right-4 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >

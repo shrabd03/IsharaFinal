@@ -7,7 +7,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
-import { Hand } from "lucide-react";
+function ILYHandIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M8 13V4.5" />
+      <path d="M11 13v-2.5" />
+      <path d="M14 13v-2.5" />
+      <path d="M17 13V5.5" />
+      <path d="M8 14.5L4.5 13" />
+      <path d="M6 13h13a0 0 0 0 1 0 0v4a4 4 0 0 1-4 4h-5a4 4 0 0 1-4-4v-4z" />
+    </svg>
+  );
+}
+
 
 export default function Auth() {
   const { login } = useAuth();
@@ -38,7 +59,7 @@ export default function Auth() {
       >
         <div className="text-center mb-8 flex flex-col items-center">
           <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
-             <Hand className="w-8 h-8" />
+             <ILYHandIcon className="w-9 h-9" />
           </div>
           <h1 className="text-3xl font-serif text-foreground mb-2">Welcome to Ishara</h1>
           <p className="text-muted-foreground">A calm, dignified space for Jordanian Sign Language.</p>
@@ -66,7 +87,7 @@ export default function Auth() {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-lg">Enter Space</Button>
+                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-lg">Sign In</Button>
                 </CardFooter>
               </form>
             </TabsContent>
