@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Ishara — Jordanian Sign Language"
+version = "1.0.0"
+id = "artifacts/ishara"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18194
+
+[services.development]
+run = "pnpm --filter @workspace/ishara run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ishara", "run", "build" ]
+publicDir = "artifacts/ishara/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18194"
+BASE_PATH = "/"
