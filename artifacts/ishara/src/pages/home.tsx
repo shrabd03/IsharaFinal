@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { User, MessageSquare, Hand, Settings2, Clock, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import signerPortrait from "@assets/image_1777542334064.png";
 
 function Hero() {
   const scrollToSigns = () => {
@@ -70,41 +69,32 @@ function Hero() {
 
         <motion.div
           className="hidden md:flex justify-center items-center relative h-full"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
         >
-          <div className="relative w-[340px] h-[420px]">
-            <div className="absolute -inset-6 bg-secondary/20 blur-3xl rounded-full" />
-            <div className="absolute inset-0 rounded-[28px] overflow-hidden shadow-2xl ring-1 ring-white/15 bg-gradient-to-b from-primary/40 to-primary">
-              <img
-                src={signerPortrait}
-                alt="Ishara guide signing in Jordanian Arabic Sign Language"
-                className="w-full h-full object-cover"
-                loading="eager"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-primary-foreground">
-                <div>
-                  <p className="text-xs uppercase tracking-widest opacity-80">Featured signer</p>
-                  <p className="text-base font-semibold">Lina · Amman</p>
-                </div>
-                <Badge className="bg-secondary text-secondary-foreground border-0">LIU</Badge>
-              </div>
-            </div>
+          <div className="relative w-72 h-72">
+            <div className="absolute -inset-10 bg-secondary/20 blur-3xl rounded-full" />
             <motion.div
-              className="absolute -top-6 -left-10 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
-              animate={{ y: [0, -8, 0] }}
+              className="absolute top-0 right-10 bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-xl ring-1 ring-white/20 rotate-6"
+              animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <AnimatedSign signId="hello" />
             </motion.div>
             <motion.div
-              className="absolute -bottom-6 -right-8 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute bottom-0 right-0 bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-xl ring-1 ring-white/20 -rotate-6"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
             >
               <AnimatedSign signId="thank_you" />
+            </motion.div>
+            <motion.div
+              className="absolute top-20 left-0 bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-xl ring-1 ring-white/20 -rotate-12"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+            >
+              <AnimatedSign signId="help" />
             </motion.div>
           </div>
         </motion.div>
