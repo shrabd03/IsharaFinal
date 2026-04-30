@@ -100,7 +100,7 @@ export function Navbar() {
               <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">1</div>
               <div>
                 <h4 className="font-medium text-foreground">Explore the Dictionary</h4>
-                <p className="text-sm text-muted-foreground">Scroll to the animated signs section to learn common LIU (Jordanian Arabic Sign Language) gestures.</p>
+                <p className="text-sm text-muted-foreground">Scroll to the animated signs section to learn common JSL (Jordanian Arabic Sign Language) gestures.</p>
               </div>
             </div>
             <div className="flex gap-3">

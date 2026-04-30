@@ -92,7 +92,7 @@ function Hero() {
               >
                 <Hand className="w-56 h-56 drop-shadow-[0_8px_30px_rgba(0,0,0,0.35)]" strokeWidth={1.5} />
               </motion.div>
-              <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-secondary-foreground border-0 px-4 py-1 text-sm">LIU</Badge>
+              <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-secondary-foreground border-0 px-4 py-1 text-sm">JSL</Badge>
             </motion.div>
             <motion.div
               className="absolute top-2 -left-6 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
@@ -131,7 +131,7 @@ function DictionarySection() {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-serif text-foreground mb-4">Sign Language Dictionary</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Learn common gestures in Jordanian Arabic Sign Language (LIU). Our animated guides help you understand the precise movements.
+            Learn common gestures in Jordanian Arabic Sign Language (JSL). Our animated guides help you understand the precise movements.
           </p>
         </div>
 
