@@ -7,25 +7,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
-function ILYHandIcon({ className }: { className?: string }) {
+import { Hand } from "lucide-react";
+
+function WavingHand({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
+    <motion.div
+      className="inline-flex"
+      style={{ transformOrigin: "70% 80%" }}
+      animate={{ rotate: [0, -18, 14, -12, 10, 0] }}
+      transition={{ duration: 1.6, repeat: Infinity, repeatDelay: 1.2, ease: "easeInOut" }}
+      aria-label="Waving hello (marhaba)"
     >
-      <path d="M8 13V4.5" />
-      <path d="M11 13v-2.5" />
-      <path d="M14 13v-2.5" />
-      <path d="M17 13V5.5" />
-      <path d="M8 14.5L4.5 13" />
-      <path d="M6 13h13a0 0 0 0 1 0 0v4a4 4 0 0 1-4 4h-5a4 4 0 0 1-4-4v-4z" />
-    </svg>
+      <Hand className={className} />
+    </motion.div>
   );
 }
 
@@ -59,7 +53,7 @@ export default function Auth() {
       >
         <div className="text-center mb-8 flex flex-col items-center">
           <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
-             <ILYHandIcon className="w-9 h-9" />
+             <WavingHand className="w-9 h-9" />
           </div>
           <h1 className="text-3xl font-serif text-foreground mb-2">Welcome to Ishara</h1>
           <p className="text-muted-foreground">A calm, dignified space for Jordanian Sign Language.</p>

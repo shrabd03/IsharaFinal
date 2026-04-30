@@ -17,27 +17,6 @@ import { motion } from "framer-motion";
 import { LiveCameraTranslation } from "@/components/translation/LiveCameraTranslation";
 import { SpeechToSignTranslation } from "@/components/translation/SpeechToSignTranslation";
 
-function ILYHandLarge({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M8 13V4.5" />
-      <path d="M11 13v-2.5" />
-      <path d="M14 13v-2.5" />
-      <path d="M17 13V5.5" />
-      <path d="M8 14.5L4.5 13" />
-      <path d="M6 13h13a0 0 0 0 1 0 0v4a4 4 0 0 1-4 4h-5a4 4 0 0 1-4-4v-4z" />
-    </svg>
-  );
-}
 
 function Hero() {
   const scrollToSigns = () => {
@@ -101,11 +80,18 @@ function Hero() {
             <div className="absolute -inset-10 bg-secondary/25 blur-3xl rounded-full" />
             <div className="absolute inset-6 rounded-[36px] bg-white/5 backdrop-blur-md ring-1 ring-white/15 shadow-2xl" />
             <motion.div
-              className="relative text-primary-foreground"
+              className="relative text-primary-foreground flex items-center justify-center"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ILYHandLarge className="w-56 h-56 drop-shadow-[0_8px_30px_rgba(0,0,0,0.35)]" />
+              <motion.div
+                style={{ transformOrigin: "70% 85%" }}
+                animate={{ rotate: [0, -22, 18, -16, 12, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 1.2, ease: "easeInOut" }}
+                aria-label="Waving hello (marhaba)"
+              >
+                <Hand className="w-56 h-56 drop-shadow-[0_8px_30px_rgba(0,0,0,0.35)]" strokeWidth={1.5} />
+              </motion.div>
               <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-secondary-foreground border-0 px-4 py-1 text-sm">LIU</Badge>
             </motion.div>
             <motion.div
