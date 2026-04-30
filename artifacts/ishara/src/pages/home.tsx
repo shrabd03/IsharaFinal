@@ -14,6 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { User, MessageSquare, Hand, Settings2, Clock, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import signerPortrait from "@assets/image_1777542334064.png";
+import { LiveCameraTranslation } from "@/components/translation/LiveCameraTranslation";
+import { SpeechToSignTranslation } from "@/components/translation/SpeechToSignTranslation";
 
 function Hero() {
   const scrollToSigns = () => {
@@ -69,32 +72,41 @@ function Hero() {
 
         <motion.div
           className="hidden md:flex justify-center items-center relative h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
         >
-          <div className="relative w-72 h-72">
-            <div className="absolute -inset-10 bg-secondary/20 blur-3xl rounded-full" />
+          <div className="relative w-[340px] h-[420px]">
+            <div className="absolute -inset-6 bg-secondary/20 blur-3xl rounded-full" />
+            <div className="absolute inset-0 rounded-[28px] overflow-hidden shadow-2xl ring-1 ring-white/15 bg-gradient-to-b from-primary/40 to-primary">
+              <img
+                src={signerPortrait}
+                alt="Ishara guide signing in Jordanian Arabic Sign Language"
+                className="w-full h-full object-cover"
+                loading="eager"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-primary-foreground">
+                <div>
+                  <p className="text-xs uppercase tracking-widest opacity-80">Featured signer</p>
+                  <p className="text-base font-semibold">Lina · Amman</p>
+                </div>
+                <Badge className="bg-secondary text-secondary-foreground border-0">LIU</Badge>
+              </div>
+            </div>
             <motion.div
-              className="absolute top-0 right-10 bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-xl ring-1 ring-white/20 rotate-6"
-              animate={{ y: [0, -10, 0] }}
+              className="absolute -top-6 -left-10 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
+              animate={{ y: [0, -8, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <AnimatedSign signId="hello" />
             </motion.div>
             <motion.div
-              className="absolute bottom-0 right-0 bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-xl ring-1 ring-white/20 -rotate-6"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+              className="absolute -bottom-6 -right-8 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >
               <AnimatedSign signId="thank_you" />
-            </motion.div>
-            <motion.div
-              className="absolute top-20 left-0 bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-xl ring-1 ring-white/20 -rotate-12"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-            >
-              <AnimatedSign signId="help" />
             </motion.div>
           </div>
         </motion.div>
@@ -292,6 +304,44 @@ function ConversationsSection() {
   );
 }
 
+function TranslationSection() {
+  return (
+    <section id="translate" className="relative py-20 overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background">
+      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-secondary/20 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -right-32 w-[28rem] h-[28rem] rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+
+      <div className="container mx-auto px-4 relative">
+        <div className="text-center mb-12 max-w-2xl mx-auto">
+          <Badge className="mb-4 bg-secondary/20 text-secondary-foreground border-0">AI Translation</Badge>
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-4">Two-way live translation</h2>
+          <p className="text-muted-foreground">
+            Bridge deaf and hearing conversations in real time. Use your camera to translate signs into Arabic text, or speak and watch your words become signs.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <LiveCameraTranslation />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <SpeechToSignTranslation />
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
@@ -310,6 +360,7 @@ export default function Home() {
       <main className="flex-1 pb-20">
         <Hero />
         <AccessibilityBar />
+        <TranslationSection />
         <DictionarySection />
         <FeaturesGrid />
         <ConversationsSection />

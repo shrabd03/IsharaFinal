@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { LogOut, HelpCircle, Book, MessageSquare, Home } from "lucide-react";
+import { LogOut, HelpCircle, Book, MessageSquare, Home, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/use-auth";
@@ -22,14 +22,13 @@ export function Navbar() {
     setLocation("/");
   };
 
-  const scrollToSigns = () => {
-    if (window.location.pathname !== "/home") {
+  const scrollToId = (id: string) => {
+    const trigger = () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (!window.location.pathname.endsWith("/home")) {
       setLocation("/home");
-      setTimeout(() => {
-        document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      setTimeout(trigger, 120);
     } else {
-      document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" });
+      trigger();
     }
   };
 
@@ -57,10 +56,13 @@ export function Navbar() {
             <Link href="/home" className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
               <Home className="w-4 h-4" /> Home
             </Link>
-            <button onClick={() => setLocation("/home")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+            <button onClick={() => scrollToId("translate")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+              <Sparkles className="w-4 h-4" /> Translate
+            </button>
+            <button onClick={() => scrollToId("conversations")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
               <MessageSquare className="w-4 h-4" /> Conversations
             </button>
-            <button onClick={scrollToSigns} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+            <button onClick={() => scrollToId("dictionary")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
               <Book className="w-4 h-4" /> Dictionary
             </button>
             <button onClick={() => setHelpOpen(true)} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
