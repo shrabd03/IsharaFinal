@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { ArrowLeft, User, Bell, HelpCircle, ChevronRight, Save, LogOut } from "lucide-react";
+import { ArrowLeft, User, Bell, HelpCircle, ChevronRight, Save, LogOut, Sun, Moon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
+import { usePreferences } from "@/hooks/use-preferences";
 
 const MONTHS = [
   "January","February","March","April","May","June",
@@ -23,6 +24,7 @@ export default function Settings() {
   const { user, updateProfile, logout } = useAuth();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { preferences, updatePreferences } = usePreferences();
 
   const [notifPhrases, setNotifPhrases] = useState(() => localStorage.getItem("ishara_notif_phrases") !== "false");
   const [notifUpdates, setNotifUpdates] = useState(() => localStorage.getItem("ishara_notif_updates") !== "false");
@@ -95,6 +97,44 @@ export default function Settings() {
                 </p>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Sun className="w-5 h-5 text-primary" /> Appearance
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-foreground">Theme</p>
+                <p className="text-sm text-muted-foreground">Choose how Ishara looks</p>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => updatePreferences({ displayMode: "normal" })}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-sm font-medium transition-all ${
+                    preferences.displayMode === "normal"
+                      ? "bg-yellow-100 border-yellow-300 text-yellow-900 shadow-sm"
+                      : "bg-background border-border text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  <Sun className="w-4 h-4" /> Light
+                </button>
+                <button
+                  onClick={() => updatePreferences({ displayMode: "dark" })}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-sm font-medium transition-all ${
+                    preferences.displayMode === "dark"
+                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                      : "bg-background border-border text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  <Moon className="w-4 h-4" /> Dark
+                </button>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
