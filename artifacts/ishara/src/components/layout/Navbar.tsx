@@ -9,8 +9,8 @@ export function Navbar() {
   const { user, logout } = useAuth();
   const [, setLocation] = useLocation();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setLocation("/");
   };
 

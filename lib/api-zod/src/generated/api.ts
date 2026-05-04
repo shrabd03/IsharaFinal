@@ -14,3 +14,58 @@ import * as zod from "zod";
 export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
+
+/**
+ * @summary Register a new user
+ */
+export const registerBodyUsernameMin = 2;
+
+export const registerBodyPasswordMin = 6;
+
+export const RegisterBody = zod.object({
+  email: zod.string().email(),
+  username: zod.string().min(registerBodyUsernameMin),
+  password: zod.string().min(registerBodyPasswordMin),
+  dateOfBirth: zod
+    .string()
+    .optional()
+    .describe("Date of birth in YYYY-MM-DD format"),
+});
+
+/**
+ * @summary Log in with email and password
+ */
+export const LoginBody = zod.object({
+  email: zod.string().email(),
+  password: zod.string(),
+});
+
+export const LoginResponse = zod.object({
+  user: zod.object({
+    id: zod.number(),
+    email: zod.string(),
+    username: zod.string(),
+    dateOfBirth: zod.string().nullish(),
+    createdAt: zod.string(),
+  }),
+});
+
+/**
+ * @summary Log out the current user
+ */
+export const LogoutResponse = zod.object({
+  message: zod.string(),
+});
+
+/**
+ * @summary Get the currently authenticated user
+ */
+export const GetMeResponse = zod.object({
+  user: zod.object({
+    id: zod.number(),
+    email: zod.string(),
+    username: zod.string(),
+    dateOfBirth: zod.string().nullish(),
+    createdAt: zod.string(),
+  }),
+});

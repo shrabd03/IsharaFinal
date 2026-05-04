@@ -8,3 +8,38 @@
 export interface HealthStatus {
   status: string;
 }
+
+export interface RegisterRequest {
+  email: string;
+  /** @minLength 2 */
+  username: string;
+  /** @minLength 6 */
+  password: string;
+  /** Date of birth in YYYY-MM-DD format */
+  dateOfBirth?: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface AuthUser {
+  id: number;
+  email: string;
+  username: string;
+  dateOfBirth?: string | null;
+  createdAt: string;
+}
+
+export interface AuthResponse {
+  user: AuthUser;
+}
+
+export interface MessageResponse {
+  message: string;
+}
+
+export interface ErrorResponse {
+  error: string;
+}

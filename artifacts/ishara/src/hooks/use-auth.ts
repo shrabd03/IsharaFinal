@@ -1,92 +1,155 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export type User = {
+  id: number;
   name: string;
   email: string;
   dob?: { day: string; month: string; year: string };
   joinedISO: string;
 };
 
-type StoredUser = User & { password: string };
+type ApiUser = {
+  id: number;
+  email: string;
+  username: string;
+  dateOfBirth: string | null;
+  createdAt: string;
+};
 
-const STORE_KEY = "ishara_users";
-const SESSION_KEY = "ishara_session";
+const SESSION_CACHE = "ishara_session_v2";
 
-function getStore(): Record<string, StoredUser> {
+function mapApiUser(u: ApiUser): User {
+  let dob: User["dob"] | undefined;
+  if (u.dateOfBirth) {
+    const [year, month, day] = u.dateOfBirth.split("-");
+    dob = {
+      day: String(parseInt(day, 10)),
+      month: String(parseInt(month, 10)),
+      year,
+    };
+  }
+  return {
+    id: u.id,
+    name: u.username,
+    email: u.email,
+    dob,
+    joinedISO: u.createdAt,
+  };
+}
+
+function cacheUser(u: User | null) {
+  if (u) localStorage.setItem(SESSION_CACHE, JSON.stringify(u));
+  else localStorage.removeItem(SESSION_CACHE);
+}
+
+function readCache(): User | null {
   try {
-    return JSON.parse(localStorage.getItem(STORE_KEY) ?? "{}");
+    const s = localStorage.getItem(SESSION_CACHE);
+    return s ? (JSON.parse(s) as User) : null;
   } catch {
-    return {};
+    return null;
   }
 }
 
-function saveStore(store: Record<string, StoredUser>) {
-  localStorage.setItem(STORE_KEY, JSON.stringify(store));
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const API = `${BASE}/api`;
+
+async function apiFetch<T>(
+  path: string,
+  options?: RequestInit,
+): Promise<{ data?: T; error?: string; status: number }> {
+  try {
+    const res = await fetch(`${API}${path}`, {
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      ...options,
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok)
+      return {
+        status: res.status,
+        error: (json as { error?: string }).error ?? "Something went wrong",
+      };
+    return { status: res.status, data: json as T };
+  } catch {
+    return { status: 0, error: "Network error — please try again." };
+  }
 }
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(() => {
-    try {
-      const s = localStorage.getItem(SESSION_KEY);
-      return s ? JSON.parse(s) : null;
-    } catch {
-      return null;
-    }
-  });
+  const [user, setUser] = useState<User | null>(() => readCache());
+  const [loading, setLoading] = useState(true);
 
-  const login = (email: string, password: string): string | null => {
-    const store = getStore();
-    const key = email.toLowerCase().trim();
-    const found = store[key];
-    if (!found) return "No account found with that email.";
-    if (found.password !== password) return "Incorrect password.";
-    const { password: _p, ...sessionUser } = found;
-    localStorage.setItem(SESSION_KEY, JSON.stringify(sessionUser));
-    setUser(sessionUser);
+  useEffect(() => {
+    apiFetch<{ user: ApiUser }>("/auth/me")
+      .then(({ data, status }) => {
+        if (data) {
+          const mapped = mapApiUser(data.user);
+          cacheUser(mapped);
+          setUser(mapped);
+        } else if (status === 401) {
+          cacheUser(null);
+          setUser(null);
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const login = async (email: string, password: string): Promise<string | null> => {
+    const { data, error } = await apiFetch<{ user: ApiUser }>("/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    });
+    if (error) return error;
+    if (data) {
+      const mapped = mapApiUser(data.user);
+      cacheUser(mapped);
+      setUser(mapped);
+    }
     return null;
   };
 
-  const register = (
+  const register = async (
     name: string,
     email: string,
     password: string,
-    dob: { day: string; month: string; year: string }
-  ): string | null => {
-    const store = getStore();
-    const key = email.toLowerCase().trim();
-    if (store[key]) return "An account with this email already exists.";
-    const newUser: StoredUser = {
-      name: name.trim(),
-      email: key,
-      dob,
-      joinedISO: new Date().toISOString(),
-      password,
-    };
-    store[key] = newUser;
-    saveStore(store);
-    const { password: _p, ...sessionUser } = newUser;
-    localStorage.setItem(SESSION_KEY, JSON.stringify(sessionUser));
-    setUser(sessionUser);
+    dob: { day: string; month: string; year: string },
+  ): Promise<string | null> => {
+    const dateOfBirth =
+      dob.year && dob.month && dob.day
+        ? `${dob.year}-${String(dob.month).padStart(2, "0")}-${String(dob.day).padStart(2, "0")}`
+        : undefined;
+    const { data, error } = await apiFetch<{ user: ApiUser }>("/auth/register", {
+      method: "POST",
+      body: JSON.stringify({ email, username: name, password, dateOfBirth }),
+    });
+    if (error) return error;
+    if (data) {
+      const mapped = mapApiUser(data.user);
+      cacheUser(mapped);
+      setUser(mapped);
+    }
     return null;
   };
 
-  const updateProfile = (updates: Partial<Pick<User, "name">>) => {
+  const updateProfile = async (updates: Partial<Pick<User, "name">>) => {
     if (!user) return;
-    const updated = { ...user, ...updates };
-    localStorage.setItem(SESSION_KEY, JSON.stringify(updated));
-    const store = getStore();
-    const key = user.email.toLowerCase();
-    if (store[key]) {
-      store[key] = { ...store[key], ...updates };
-      saveStore(store);
+    const { data } = await apiFetch<{ user: ApiUser }>("/auth/me", {
+      method: "PATCH",
+      body: JSON.stringify({ username: updates.name }),
+    });
+    if (data) {
+      const mapped = mapApiUser(data.user);
+      cacheUser(mapped);
+      setUser(mapped);
     }
-    setUser(updated);
   };
 
-  const logout = () => {
-    localStorage.removeItem(SESSION_KEY);
+  const logout = async () => {
+    await apiFetch("/auth/logout", { method: "POST" });
+    cacheUser(null);
     setUser(null);
   };
 
-  return { user, login, register, updateProfile, logout };
+  return { user, loading, login, register, updateProfile, logout };
 }

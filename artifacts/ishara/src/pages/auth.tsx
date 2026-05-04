@@ -40,6 +40,7 @@ export default function Auth() {
   const [siPassword, setSiPassword] = useState("");
   const [siShowPw, setSiShowPw] = useState(false);
   const [siError, setSiError] = useState("");
+  const [siLoading, setSiLoading] = useState(false);
 
   const [fpEmail, setFpEmail] = useState("");
 
@@ -53,11 +54,14 @@ export default function Auth() {
   const [suShowPw, setSuShowPw] = useState(false);
   const [suShowCp, setSuShowCp] = useState(false);
   const [suError, setSuError] = useState("");
+  const [suLoading, setSuLoading] = useState(false);
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setSiError("");
-    const err = login(siEmail, siPassword);
+    setSiLoading(true);
+    const err = await login(siEmail, siPassword);
+    setSiLoading(false);
     if (err) { setSiError(err); return; }
     setLocation("/home");
   };
@@ -69,13 +73,15 @@ export default function Auth() {
     setFpEmail("");
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuError("");
     if (suPassword !== suConfirm) { setSuError("Passwords do not match."); return; }
     if (suPassword.length < 6) { setSuError("Password must be at least 6 characters."); return; }
     if (!suDay || !suMonth || !suYear) { setSuError("Please complete your date of birth."); return; }
-    const err = register(suName, suEmail, suPassword, { day: suDay, month: suMonth, year: suYear });
+    setSuLoading(true);
+    const err = await register(suName, suEmail, suPassword, { day: suDay, month: suMonth, year: suYear });
+    setSuLoading(false);
     if (err) { setSuError(err); return; }
     setLocation("/home");
   };
@@ -158,7 +164,7 @@ export default function Auth() {
                           <button type="button" onClick={() => setShowForgot(true)} className="text-sm text-primary hover:underline">Forgot password?</button>
                         </div>
                         {siError && <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">{siError}</p>}
-                        <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 text-base">Sign In</Button>
+                        <Button type="submit" disabled={siLoading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-11 text-base">{siLoading ? "Signing in…" : "Sign In"}</Button>
                         <div className="relative">
                           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
                           <div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-3 text-muted-foreground">or</span></div>
@@ -215,7 +221,7 @@ export default function Auth() {
                           </div>
                         </div>
                         {suError && <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2">{suError}</p>}
-                        <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground h-11 text-base">Create Account</Button>
+                        <Button type="submit" disabled={suLoading} className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground h-11 text-base">{suLoading ? "Creating account…" : "Create Account"}</Button>
                         <div className="relative">
                           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
                           <div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-3 text-muted-foreground">or</span></div>

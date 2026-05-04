@@ -32,9 +32,9 @@ export default function Settings() {
   const [editName, setEditName] = useState(user?.name ?? "");
   const [nameChanged, setNameChanged] = useState(false);
 
-  const handleSaveName = () => {
+  const handleSaveName = async () => {
     if (!editName.trim()) return;
-    updateProfile({ name: editName.trim() });
+    await updateProfile({ name: editName.trim() });
     setNameChanged(false);
     toast({ title: "Profile updated", description: "Your display name has been saved." });
   };
@@ -44,8 +44,8 @@ export default function Settings() {
     localStorage.setItem(key, String(val));
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setLocation("/");
   };
 
