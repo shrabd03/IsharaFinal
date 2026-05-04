@@ -39,10 +39,10 @@ function Hero() {
             A calm, dignified space for deaf and mute users in Jordan to communicate, learn, and save conversations using Jordanian Arabic Sign Language.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-12 px-8 text-lg" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
+            <Button size="lg" className="bg-yellow-100 text-yellow-900 hover:bg-yellow-200 h-12 px-8 text-lg border-0 shadow-sm" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
               Get started
             </Button>
-            <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary hover:bg-primary-foreground/10 hover:text-primary-foreground h-12 px-8 text-lg" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
+            <Button size="lg" variant="outline" className="border-primary-foreground/30 text-white hover:bg-primary-foreground/10 hover:text-white h-12 px-8 text-lg" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
               Watch the signs
             </Button>
           </div>
