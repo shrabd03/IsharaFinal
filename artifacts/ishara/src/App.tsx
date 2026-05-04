@@ -10,6 +10,7 @@ import Contact from "@/pages/contact";
 import Phrasebook from "@/pages/phrasebook";
 import SignToText from "@/pages/sign-to-text";
 import TextToSign from "@/pages/text-to-sign";
+import History from "@/pages/history";
 import { usePreferences } from "@/hooks/use-preferences";
 import { useEffect } from "react";
 
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/phrasebook" component={Phrasebook} />
       <Route path="/sign-to-text" component={SignToText} />
       <Route path="/text-to-sign" component={TextToSign} />
+      <Route path="/history" component={History} />
       <Route component={NotFound} />
     </Switch>
   );

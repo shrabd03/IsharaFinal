@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/use-auth";
+import { useHistory } from "@/hooks/use-history";
 
 /* ─── Video dictionary ─────────────────────────────────────────────────────── */
 type VideoEntry = { file: string; ar: string; en: string };
@@ -167,6 +168,7 @@ declare global {
 /* ─── Component ─────────────────────────────────────────────────────────────── */
 export default function TextToSign() {
   const { user } = useAuth();
+  const { addEntry } = useHistory();
   const [, setLocation] = useLocation();
 
   const [inputText, setInputText] = useState("");
@@ -225,7 +227,12 @@ export default function TextToSign() {
     setPlaying(false);
     setShowInput(false);
     setTimeout(() => setPlaying(true), 100);
-  }, [inputText]);
+    addEntry({
+      type: "text-to-sign",
+      text: inputText.trim(),
+      words: toks.map(t => t.display),
+    });
+  }, [inputText, addEntry]);
 
   const handleClear = () => {
     setInputText(""); setTokens([]); setCurrent(0); setPlaying(false);

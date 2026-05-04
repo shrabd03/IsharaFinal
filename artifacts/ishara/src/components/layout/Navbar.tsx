@@ -1,6 +1,6 @@
 import { useLocation } from "wouter";
 import { Link } from "wouter";
-import { LogOut, Book, MessageSquare, Home, Settings, Phone } from "lucide-react";
+import { LogOut, Book, MessageSquare, Home, Settings, Phone, History } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/use-auth";
@@ -52,6 +52,9 @@ export function Navbar() {
           </button>
           <button onClick={() => scrollToId("dictionary")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
             <Book className="w-4 h-4" /> Dictionary
+          </button>
+          <button onClick={() => setLocation("/history")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+            <History className="w-4 h-4" /> History
           </button>
         </div>
 

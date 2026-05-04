@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Camera, CameraOff, Copy, Check, Trash2, Loader2, Zap } from "lucide-react";
+import { ArrowLeft, Camera, CameraOff, Copy, Check, Trash2, Loader2, Zap, BookmarkPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/use-auth";
+import { useHistory } from "@/hooks/use-history";
 
 const DETECTED_SIGNS = [
   { ar: "مرحبا", en: "Hello" },
@@ -25,6 +26,7 @@ type DetectedEntry = { ar: string; en: string; id: number };
 
 export default function SignToText() {
   const { user } = useAuth();
+  const { addEntry } = useHistory();
   const [, setLocation] = useLocation();
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -36,6 +38,7 @@ export default function SignToText() {
   const [detectedLog, setDetectedLog] = useState<DetectedEntry[]>([]);
   const [latestDetected, setLatestDetected] = useState<DetectedEntry | null>(null);
   const [copied, setCopied] = useState(false);
+  const [saved, setSaved] = useState(false);
   const detectIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const idRef = useRef(0);
 
@@ -97,6 +100,17 @@ export default function SignToText() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
+  };
+
+  const handleSaveToHistory = () => {
+    if (!detectedLog.length) return;
+    addEntry({
+      type: "sign-to-text",
+      text: detectedLog.map(e => e.ar).join(" ، "),
+      words: detectedLog.map(e => e.ar),
+    });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
   };
 
   if (!user) return null;
@@ -220,9 +234,13 @@ export default function SignToText() {
             <div className="flex gap-2">
               {detectedLog.length > 0 && (
                 <>
+                  <Button variant="ghost" size="sm" onClick={handleSaveToHistory} className="h-8 gap-1.5 text-teal-600 hover:text-teal-700 hover:bg-teal-50">
+                    {saved ? <Check className="w-3.5 h-3.5 text-green-500" /> : <BookmarkPlus className="w-3.5 h-3.5" />}
+                    {saved ? "Saved!" : "Save"}
+                  </Button>
                   <Button variant="ghost" size="sm" onClick={handleCopyAll} className="h-8 gap-1.5">
                     {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
-                    {copied ? "Copied" : "Copy all"}
+                    {copied ? "Copied" : "Copy"}
                   </Button>
                   <Button variant="ghost" size="sm" onClick={() => { setDetectedLog([]); setLatestDetected(null); }} className="h-8 text-destructive hover:text-destructive">
                     <Trash2 className="w-3.5 h-3.5" />
