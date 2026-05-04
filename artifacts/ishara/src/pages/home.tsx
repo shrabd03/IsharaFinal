@@ -90,7 +90,7 @@ function TranslationCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
             onClick={() => setLocation("/sign-to-text")}
-            className="group relative rounded-2xl border-2 border-primary/80 bg-primary p-8 flex flex-col items-center gap-4 text-center hover:brightness-110 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+            className="group relative rounded-2xl border-2 border-primary/50 bg-primary/40 p-8 flex flex-col items-center gap-4 text-center hover:bg-primary/55 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
           >
             <div className="w-20 h-20 rounded-2xl bg-white/15 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
               <Camera className="w-10 h-10 text-primary-foreground" strokeWidth={1.5} />
@@ -110,7 +110,7 @@ function TranslationCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.12 }}
             onClick={() => setLocation("/text-to-sign")}
-            className="group relative rounded-2xl border-2 border-secondary/60 bg-secondary/70 p-8 flex flex-col items-center gap-4 text-center hover:bg-secondary/85 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+            className="group relative rounded-2xl border-2 border-secondary/50 bg-secondary/40 p-8 flex flex-col items-center gap-4 text-center hover:bg-secondary/55 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
           >
             <div className="w-20 h-20 rounded-2xl bg-black/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
               <Type className="w-10 h-10 text-secondary-foreground" strokeWidth={1.5} />
@@ -193,7 +193,7 @@ function VisionMissionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="h-full border-primary/80 bg-primary shadow-sm hover:shadow-md transition-shadow">
+            <Card className="h-full border-primary/50 bg-primary/40 shadow-sm hover:shadow-md transition-shadow">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
@@ -220,7 +220,7 @@ function VisionMissionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-            <Card className="h-full border-secondary/60 bg-secondary/70 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="h-full border-secondary/50 bg-secondary/40 shadow-sm hover:shadow-md transition-shadow">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-xl bg-black/10 flex items-center justify-center">
