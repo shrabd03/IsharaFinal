@@ -90,7 +90,7 @@ function TranslationCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
             onClick={() => setLocation("/sign-to-text")}
-            className="group relative rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary/8 to-primary/3 p-8 flex flex-col items-center gap-4 text-center hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+            className="group relative rounded-2xl border-2 border-teal-200 bg-gradient-to-br from-teal-50 to-cyan-100/60 p-8 flex flex-col items-center gap-4 text-center hover:border-teal-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
           >
             <div className="w-20 h-20 rounded-2xl bg-primary/15 text-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
               <Camera className="w-10 h-10" strokeWidth={1.5} />
@@ -193,7 +193,7 @@ function VisionMissionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="h-full border-primary/20 bg-gradient-to-br from-primary/5 to-background shadow-sm hover:shadow-md transition-shadow">
+            <Card className="h-full border-teal-200 bg-gradient-to-br from-teal-50 to-cyan-100/50 shadow-sm hover:shadow-md transition-shadow">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-xl bg-primary/15 text-primary flex items-center justify-center">
