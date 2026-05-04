@@ -7,6 +7,7 @@ import Auth from "@/pages/auth";
 import Home from "@/pages/home";
 import Settings from "@/pages/settings";
 import Contact from "@/pages/contact";
+import Phrasebook from "@/pages/phrasebook";
 import { usePreferences } from "@/hooks/use-preferences";
 import { useEffect } from "react";
 
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/home" component={Home} />
       <Route path="/settings" component={Settings} />
       <Route path="/contact" component={Contact} />
+      <Route path="/phrasebook" component={Phrasebook} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -1,6 +1,6 @@
 import { useLocation } from "wouter";
 import { Link } from "wouter";
-import { LogOut, Book, MessageSquare, Home, Sparkles, Settings, Phone } from "lucide-react";
+import { LogOut, Book, MessageSquare, Home, Settings, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/use-auth";
@@ -47,10 +47,7 @@ export function Navbar() {
           <Link href="/home" className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
             <Home className="w-4 h-4" /> Home
           </Link>
-          <button onClick={() => scrollToId("translate")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
-            <Sparkles className="w-4 h-4" /> Translate
-          </button>
-          <button onClick={() => scrollToId("conversations")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+          <button onClick={() => setLocation("/phrasebook")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
             <MessageSquare className="w-4 h-4" /> Phrasebook
           </button>
           <button onClick={() => scrollToId("dictionary")} className="text-primary-foreground/80 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">

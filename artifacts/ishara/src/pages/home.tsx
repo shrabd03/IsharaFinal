@@ -4,104 +4,64 @@ import { Navbar } from "@/components/layout/Navbar";
 import { AnimatedSign, signsList } from "@/components/signs/HandSigns";
 import { useAuth } from "@/hooks/use-auth";
 import { usePreferences } from "@/hooks/use-preferences";
-import { PhrasebookSection } from "@/components/phrasebook/PhrasebookSection";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, BookOpen, Hand, Camera } from "lucide-react";
+import { Hand, Eye, Target } from "lucide-react";
 import { motion } from "framer-motion";
-import { LiveCameraTranslation } from "@/components/translation/LiveCameraTranslation";
-import { SpeechToSignTranslation } from "@/components/translation/SpeechToSignTranslation";
-
 
 function Hero() {
-  const scrollToSigns = () => {
-    document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <div className="relative w-full h-[60vh] min-h-[400px] overflow-hidden bg-primary text-primary-foreground flex items-center">
-      {/* Abstract Petra/Jordan Landscape SVG Background */}
       <div className="absolute inset-0 z-0">
         <svg viewBox="0 0 1440 800" preserveAspectRatio="xMidYMax slice" className="w-full h-full opacity-60">
-           <defs>
-              <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="hsl(var(--primary))" />
-                <stop offset="100%" stopColor="hsl(var(--secondary) / 0.8)" />
-              </linearGradient>
-           </defs>
-           <rect width="1440" height="800" fill="url(#skyGrad)" />
-           {/* Stars */}
-           <circle cx="200" cy="150" r="1" fill="#fff" opacity="0.6"/>
-           <circle cx="450" cy="100" r="2" fill="#fff" opacity="0.4"/>
-           <circle cx="700" cy="200" r="1.5" fill="#fff" opacity="0.8"/>
-           <circle cx="1100" cy="120" r="1" fill="#fff" opacity="0.5"/>
-           <circle cx="1300" cy="180" r="2" fill="#fff" opacity="0.7"/>
-           
-           {/* Mountains/Cliffs (Petra inspired) */}
-           <path d="M0,800 L0,500 L150,450 L250,550 L450,400 L600,600 L800,450 L1000,650 L1200,350 L1440,500 L1440,800 Z" fill="hsl(var(--primary) / 0.8)" />
-           <path d="M800,800 L850,550 L1000,450 L1150,600 L1300,400 L1440,550 L1440,800 Z" fill="hsl(var(--primary))" />
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="hsl(var(--primary))" />
+              <stop offset="100%" stopColor="hsl(var(--secondary) / 0.8)" />
+            </linearGradient>
+          </defs>
+          <rect width="1440" height="800" fill="url(#skyGrad)" />
+          <circle cx="200" cy="150" r="1" fill="#fff" opacity="0.6"/>
+          <circle cx="450" cy="100" r="2" fill="#fff" opacity="0.4"/>
+          <circle cx="700" cy="200" r="1.5" fill="#fff" opacity="0.8"/>
+          <circle cx="1100" cy="120" r="1" fill="#fff" opacity="0.5"/>
+          <circle cx="1300" cy="180" r="2" fill="#fff" opacity="0.7"/>
+          <path d="M0,800 L0,500 L150,450 L250,550 L450,400 L600,600 L800,450 L1000,650 L1200,350 L1440,500 L1440,800 Z" fill="hsl(var(--primary) / 0.8)" />
+          <path d="M800,800 L850,550 L1000,450 L1150,600 L1300,400 L1440,550 L1440,800 Z" fill="hsl(var(--primary))" />
         </svg>
       </div>
 
       <div className="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-8 items-center h-full">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 leading-tight">
-            Welcome to Ishara
-          </h1>
+        <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 leading-tight">Welcome to Ishara</h1>
           <p className="text-lg md:text-xl text-primary-foreground/90 mb-8 max-w-lg">
             A calm, dignified space for deaf and mute users in Jordan to communicate, learn, and save conversations using Jordanian Arabic Sign Language.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-12 px-8 text-lg" onClick={() => document.getElementById('conversations')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-12 px-8 text-lg" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
               Get started
             </Button>
-            <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary hover:bg-primary-foreground/10 hover:text-primary-foreground h-12 px-8 text-lg" onClick={scrollToSigns}>
+            <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary hover:bg-primary-foreground/10 hover:text-primary-foreground h-12 px-8 text-lg" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
               Watch the signs
             </Button>
           </div>
         </motion.div>
 
-        <motion.div
-          className="hidden md:flex justify-center items-center relative h-full"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.3 }}
-        >
+        <motion.div className="hidden md:flex justify-center items-center relative h-full" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.3 }}>
           <div className="relative w-[360px] h-[420px] flex items-center justify-center">
             <div className="absolute -inset-10 bg-secondary/25 blur-3xl rounded-full" />
             <div className="absolute inset-6 rounded-[36px] bg-white/5 backdrop-blur-md ring-1 ring-white/15 shadow-2xl" />
-            <motion.div
-              className="relative text-primary-foreground flex items-center justify-center"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <motion.div
-                style={{ transformOrigin: "70% 85%" }}
-                animate={{ rotate: [0, -22, 18, -16, 12, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 1.2, ease: "easeInOut" }}
-                aria-label="Waving hello (marhaba)"
-              >
+            <motion.div className="relative text-primary-foreground flex items-center justify-center" animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
+              <motion.div style={{ transformOrigin: "70% 85%" }} animate={{ rotate: [0, -22, 18, -16, 12, 0] }} transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 1.2, ease: "easeInOut" }}>
                 <Hand className="w-56 h-56 drop-shadow-[0_8px_30px_rgba(0,0,0,0.35)]" strokeWidth={1.5} />
               </motion.div>
               <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-secondary-foreground border-0 px-4 py-1 text-sm">JSL</Badge>
             </motion.div>
-            <motion.div
-              className="absolute top-2 -left-6 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
+            <motion.div className="absolute top-2 -left-6 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20" animate={{ y: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
               <AnimatedSign signId="hello" />
             </motion.div>
-            <motion.div
-              className="absolute bottom-4 -right-4 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-            >
+            <motion.div className="absolute bottom-4 -right-4 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20" animate={{ y: [0, 8, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
               <AnimatedSign signId="thank_you" />
             </motion.div>
           </div>
@@ -130,18 +90,17 @@ function DictionarySection() {
             Learn common gestures in Jordanian Arabic Sign Language (JSL). Our animated guides help you understand the precise movements.
           </p>
         </div>
-
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {signsList.map((sign, index) => {
             const isHighlighted = activeSign === index;
             return (
-              <Card 
-                key={sign.id} 
-                className={`overflow-hidden transition-all duration-500 cursor-pointer ${isHighlighted ? 'ring-2 ring-primary scale-105 shadow-lg bg-primary/5' : 'hover:border-primary/30 hover:bg-muted/30'}`}
+              <Card
+                key={sign.id}
+                className={`overflow-hidden transition-all duration-500 cursor-pointer ${isHighlighted ? "ring-2 ring-primary scale-105 shadow-lg bg-primary/5" : "hover:border-primary/30 hover:bg-muted/30"}`}
                 onClick={() => setActiveSign(index)}
               >
                 <CardContent className="p-6 flex flex-col items-center text-center space-y-4">
-                  <div className={`transition-colors duration-500 ${isHighlighted ? 'text-primary' : 'text-muted-foreground'}`}>
+                  <div className={`transition-colors duration-500 ${isHighlighted ? "text-primary" : "text-muted-foreground"}`}>
                     <AnimatedSign signId={sign.id} isHighlighted={isHighlighted} />
                   </div>
                   <div>
@@ -159,76 +118,69 @@ function DictionarySection() {
   );
 }
 
-function FeaturesGrid() {
-  const features = [
-    { icon: User, title: "Your Profile", desc: "Manage your personal details and preferences from Settings." },
-    { icon: BookOpen, title: "Daily Phrasebook", desc: "Pre-written Arabic phrases organized by situation — Doctor, Taxi, Food and more." },
-    { icon: Hand, title: "Sign Dictionary", desc: "Learn and review common Jordanian Sign Language gestures with animated guides." },
-    { icon: Camera, title: "Live Translation", desc: "Translate signs to Arabic text via camera, or convert speech into animated signs." },
-  ];
-
+function VisionMissionSection() {
   return (
-    <section className="py-16 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((f, i) => (
-            <motion.div
-              key={f.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-            >
-              <Card className="h-full bg-card hover:shadow-md transition-shadow border-border/50">
-                <CardContent className="p-6 flex flex-col gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                    <f.icon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TranslationSection() {
-  return (
-    <section id="translate" className="relative py-20 overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background">
-      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-secondary/20 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 -right-32 w-[28rem] h-[28rem] rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-
-      <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-12 max-w-2xl mx-auto">
-          <Badge className="mb-4 bg-secondary/20 text-secondary-foreground border-0">AI Translation</Badge>
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-4">Two-way live translation</h2>
-          <p className="text-muted-foreground">
-            Bridge deaf and hearing conversations in real time. Use your camera to translate signs into Arabic text, or speak and watch your words become signs.
-          </p>
+    <section className="py-20 bg-muted/30">
+      <div className="container mx-auto px-4 max-w-4xl">
+        <div className="text-center mb-12">
+          <Badge className="mb-4 bg-primary/10 text-primary border-0">Who We Are</Badge>
+          <h2 className="text-3xl font-serif text-foreground mb-3">Our Vision & Mission</h2>
+          <p className="text-muted-foreground">The purpose behind Ishara and what drives us forward.</p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <LiveCameraTranslation />
+            <Card className="h-full border-primary/20 bg-gradient-to-br from-primary/5 to-background shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="p-8 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-xl bg-primary/15 text-primary flex items-center justify-center">
+                    <Eye className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Vision</p>
+                    <h3 className="text-xl font-serif font-semibold text-foreground">Why we exist</h3>
+                  </div>
+                </div>
+                <p className="text-foreground/80 leading-relaxed">
+                  To create a world where communication has no barriers — where deaf and hearing people can understand each other naturally, instantly, and without limitations of language or ability.
+                </p>
+                <p className="text-muted-foreground leading-relaxed text-sm">
+                  Ishara envisions a future where technology turns every human interaction into a shared experience, not a divided one.
+                </p>
+              </CardContent>
+            </Card>
           </motion.div>
+
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-            <SpeechToSignTranslation />
+            <Card className="h-full border-secondary/30 bg-gradient-to-br from-secondary/5 to-background shadow-sm hover:shadow-md transition-shadow">
+              <CardContent className="p-8 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-xl bg-secondary/20 text-secondary-foreground flex items-center justify-center">
+                    <Target className="w-6 h-6 text-secondary" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Mission</p>
+                    <h3 className="text-xl font-serif font-semibold text-foreground">What we do</h3>
+                  </div>
+                </div>
+                <p className="text-foreground/80 leading-relaxed">
+                  Ishara bridges communication between deaf and hearing individuals using real-time AI translation. We transform sign language captured by camera into clear words for hearing users, and spoken or typed language into visual sign-based expressions for deaf users.
+                </p>
+                <p className="text-muted-foreground leading-relaxed text-sm">
+                  Our mission is to make everyday communication inclusive, simple, and immediate — so no one is left out of the conversation.
+                </p>
+              </CardContent>
+            </Card>
           </motion.div>
         </div>
       </div>
@@ -239,11 +191,10 @@ function TranslationSection() {
 export default function Home() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
+  usePreferences();
 
   useEffect(() => {
-    if (!user) {
-      setLocation("/");
-    }
+    if (!user) setLocation("/");
   }, [user, setLocation]);
 
   if (!user) return null;
@@ -253,10 +204,8 @@ export default function Home() {
       <Navbar />
       <main className="flex-1 pb-20">
         <Hero />
-        <TranslationSection />
         <DictionarySection />
-        <FeaturesGrid />
-        <PhrasebookSection />
+        <VisionMissionSection />
       </main>
     </div>
   );
