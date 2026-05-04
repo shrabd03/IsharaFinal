@@ -44,7 +44,8 @@ export default function Auth() {
 
   const [fpEmail, setFpEmail] = useState("");
 
-  const [suName, setSuName] = useState("");
+  const [suFirstName, setSuFirstName] = useState("");
+  const [suLastName, setSuLastName] = useState("");
   const [suEmail, setSuEmail] = useState("");
   const [suDay, setSuDay] = useState("");
   const [suMonth, setSuMonth] = useState("");
@@ -76,11 +77,12 @@ export default function Auth() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuError("");
+    if (!suFirstName.trim() || !suLastName.trim()) { setSuError("Please enter both first and last name."); return; }
     if (suPassword !== suConfirm) { setSuError("Passwords do not match."); return; }
     if (suPassword.length < 6) { setSuError("Password must be at least 6 characters."); return; }
     if (!suDay || !suMonth || !suYear) { setSuError("Please complete your date of birth."); return; }
     setSuLoading(true);
-    const err = await register(suName, suEmail, suPassword, { day: suDay, month: suMonth, year: suYear });
+    const err = await register(`${suFirstName.trim()} ${suLastName.trim()}`, suEmail, suPassword, { day: suDay, month: suMonth, year: suYear });
     setSuLoading(false);
     if (err) { setSuError(err); return; }
     setLocation("/home");
@@ -179,9 +181,15 @@ export default function Auth() {
                   <TabsContent value="create" className="mt-0">
                     <form onSubmit={handleRegister}>
                       <CardContent className="space-y-4 pt-5">
-                        <div className="space-y-2">
-                          <Label htmlFor="su-name">Full Name</Label>
-                          <Input id="su-name" value={suName} onChange={e => setSuName(e.target.value)} placeholder="Your full name" required className="bg-background" />
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-2">
+                            <Label htmlFor="su-first">First Name</Label>
+                            <Input id="su-first" value={suFirstName} onChange={e => setSuFirstName(e.target.value)} placeholder="First name" required className="bg-background" />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="su-last">Last Name</Label>
+                            <Input id="su-last" value={suLastName} onChange={e => setSuLastName(e.target.value)} placeholder="Last name" required className="bg-background" />
+                          </div>
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="su-email">Email</Label>
