@@ -110,7 +110,7 @@ function TranslationCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.12 }}
             onClick={() => setLocation("/text-to-sign")}
-            className="group relative rounded-2xl border-2 border-secondary/30 bg-gradient-to-br from-secondary/8 to-secondary/3 p-8 flex flex-col items-center gap-4 text-center hover:border-secondary/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+            className="group relative rounded-2xl border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100/60 p-8 flex flex-col items-center gap-4 text-center hover:border-yellow-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
           >
             <div className="w-20 h-20 rounded-2xl bg-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
               <Type className="w-10 h-10 text-secondary" strokeWidth={1.5} />
@@ -220,7 +220,7 @@ function VisionMissionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-            <Card className="h-full border-secondary/30 bg-gradient-to-br from-secondary/5 to-background shadow-sm hover:shadow-md transition-shadow">
+            <Card className="h-full border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100/50 shadow-sm hover:shadow-md transition-shadow">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-xl bg-secondary/20 text-secondary-foreground flex items-center justify-center">
