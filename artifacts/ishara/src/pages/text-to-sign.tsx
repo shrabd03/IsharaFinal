@@ -188,27 +188,34 @@ export default function TextToSign() {
     setHasVoice(!!(window.SpeechRecognition || window.webkitSpeechRecognition));
   }, [user]);
 
-  /* Drive the queue: when current changes, load & play or skip unknown */
+  /* Drive the queue: when current changes, update src directly (no remount) */
   useEffect(() => {
     if (!tokens.length) return;
     if (skipTimerRef.current) clearTimeout(skipTimerRef.current);
     const tok = tokens[current];
     if (tok.video) {
       if (videoRef.current) {
-        videoRef.current.load();
-        if (playing) videoRef.current.play().catch(() => {});
+        const newSrc = `${import.meta.env.BASE_URL}signs/${tok.video.file}`;
+        if (videoRef.current.src !== newSrc) {
+          videoRef.current.src = newSrc;
+        }
+        if (playing) {
+          const p = videoRef.current.play();
+          if (p) p.catch(() => {});
+        }
       }
     } else if (playing) {
+      if (videoRef.current) { videoRef.current.src = ""; }
       skipTimerRef.current = setTimeout(() => advance(), 1200);
     }
     return () => { if (skipTimerRef.current) clearTimeout(skipTimerRef.current); };
   }, [current, tokens]);
 
-  /* Sync play/pause */
+  /* Sync play/pause without re-triggering on src change */
   useEffect(() => {
-    if (!videoRef.current || !tokens[current]?.video) return;
-    if (playing) videoRef.current.play().catch(() => {});
-    else videoRef.current.pause();
+    if (!videoRef.current) return;
+    if (playing && tokens[current]?.video) videoRef.current.play().catch(() => {});
+    else if (!playing) videoRef.current.pause();
   }, [playing]);
 
   const advance = useCallback(() => {
@@ -381,28 +388,20 @@ export default function TextToSign() {
           </div>
         ) : (
           <div className="flex-1 flex flex-col">
-            {/* Video — takes up all available space */}
+            {/* Video — persistent element, src swapped via ref */}
             <div className="relative flex-1 bg-muted/20 flex items-center justify-center min-h-0">
+              {/* Always-mounted video — never unmounted between words */}
+              <video
+                ref={videoRef}
+                onEnded={advance}
+                muted
+                playsInline
+                className={`w-full h-full object-contain absolute inset-0 ${currentToken?.video ? "block" : "hidden"}`}
+              />
+
+              {/* Text card for words with no video */}
               <AnimatePresence mode="wait">
-                {currentToken?.video ? (
-                  <motion.div
-                    key={`v-${current}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
-                    <video
-                      ref={videoRef}
-                      src={`${import.meta.env.BASE_URL}signs/${currentToken.video.file}`}
-                      onEnded={advance}
-                      muted
-                      playsInline
-                      className="w-full h-full object-contain"
-                    />
-                  </motion.div>
-                ) : currentToken ? (
+                {!currentToken?.video && currentToken && (
                   <motion.div
                     key={`t-${current}`}
                     initial={{ opacity: 0, scale: 0.92 }}
@@ -413,7 +412,7 @@ export default function TextToSign() {
                     <p className="text-5xl md:text-7xl font-bold text-foreground text-center" dir="rtl">{currentToken.display}</p>
                     <p className="text-muted-foreground text-sm">No sign video for this word</p>
                   </motion.div>
-                ) : null}
+                )}
               </AnimatePresence>
 
               {/* Current word overlay */}
