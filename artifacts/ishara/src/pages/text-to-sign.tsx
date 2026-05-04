@@ -305,7 +305,7 @@ export default function TextToSign() {
                 value={inputText}
                 onChange={e => setInputText(e.target.value)}
                 onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleConvert(); } }}
-                placeholder={"مثال: مرحبا أنا طالب أدرس جامعة\nExample: hello i want food"}
+                placeholder="اكتب رسالتك"
                 rows={3}
                 autoFocus
                 className="w-full resize-none rounded-xl border border-input bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
