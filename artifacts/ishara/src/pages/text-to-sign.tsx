@@ -257,35 +257,34 @@ export default function TextToSign() {
   const progress = hasTokens ? (current + 1) / tokens.length : 0;
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Top bar */}
-      <div className="flex items-center gap-3 px-4 py-3 bg-black/90 backdrop-blur border-b border-white/10 sticky top-0 z-40">
+      <div className="flex items-center gap-3 px-4 py-3 bg-white border-b border-border sticky top-0 z-40 shadow-sm">
         <button
           onClick={() => setLocation("/home")}
-          className="flex items-center gap-1.5 text-white/70 hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-white/10"
+          className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-lg hover:bg-muted"
         >
           <ArrowLeft className="w-4 h-4" /><span className="text-sm">Back</span>
         </button>
 
         <div className="flex-1 flex items-center gap-2 min-w-0">
           {hasTokens && !showInput ? (
-            /* Sentence preview — click to edit */
             <button
               onClick={() => setShowInput(s => !s)}
-              className="flex-1 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/8 hover:bg-white/12 transition-colors text-left min-w-0 border border-white/10"
+              className="flex-1 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-muted hover:bg-muted/80 transition-colors text-left min-w-0 border border-border"
             >
-              <span className="text-white/80 text-sm truncate flex-1" dir="rtl">{inputText}</span>
-              <ChevronDown className={`w-3.5 h-3.5 text-white/40 flex-shrink-0 transition-transform ${showInput ? "rotate-180" : ""}`} />
+              <span className="text-foreground text-sm truncate flex-1" dir="rtl">{inputText}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-muted-foreground flex-shrink-0 transition-transform ${showInput ? "rotate-180" : ""}`} />
             </button>
           ) : (
             <div className="flex-1 text-center">
-              <span className="text-white/90 font-serif font-semibold">Text → Sign</span>
+              <span className="text-foreground font-serif font-semibold">Text → Sign</span>
             </div>
           )}
         </div>
 
         {hasTokens && (
-          <button onClick={handleClear} className="text-white/50 hover:text-white/90 transition-colors p-1.5 rounded-lg hover:bg-white/10">
+          <button onClick={handleClear} className="text-muted-foreground hover:text-destructive transition-colors p-1.5 rounded-lg hover:bg-muted">
             <Trash2 className="w-4 h-4" />
           </button>
         )}
@@ -299,7 +298,7 @@ export default function TextToSign() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden bg-zinc-950 border-b border-white/10"
+            className="overflow-hidden bg-muted/30 border-b border-border"
           >
             <div className="p-4 space-y-3">
               <textarea
@@ -309,7 +308,7 @@ export default function TextToSign() {
                 placeholder={"مثال: مرحبا أنا طالب أدرس جامعة\nExample: hello i want food"}
                 rows={3}
                 autoFocus
-                className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-base text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/60 transition-shadow"
+                className="w-full resize-none rounded-xl border border-input bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
               />
               <div className="flex items-center gap-2">
                 {hasVoice && (
@@ -317,19 +316,18 @@ export default function TextToSign() {
                     variant="outline"
                     size="sm"
                     onClick={toggleListening}
-                    className={`gap-2 border-white/20 text-white hover:bg-white/10 bg-transparent ${listening ? "border-red-400 text-red-400 animate-pulse" : ""}`}
+                    className={`gap-2 ${listening ? "border-red-400 text-red-500 animate-pulse" : ""}`}
                   >
                     {listening ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
                     {listening ? "Stop" : "Speak"}
                   </Button>
                 )}
-                {/* Badge picker */}
                 <div className="flex-1 flex flex-wrap gap-1.5 overflow-hidden max-h-8">
                   {SIGN_BADGES.slice(0, 8).map(v => (
                     <button
                       key={v.file}
                       onClick={() => setInputText(t => t ? t + " " + v.ar : v.ar)}
-                      className="text-xs px-2 py-0.5 rounded-full bg-white/10 hover:bg-primary/30 text-white/70 hover:text-white transition-colors border border-white/10"
+                      className="text-xs px-2 py-0.5 rounded-full bg-muted hover:bg-primary/15 text-muted-foreground hover:text-primary transition-colors border border-border"
                     >
                       {v.ar}
                     </button>
@@ -350,15 +348,15 @@ export default function TextToSign() {
       </AnimatePresence>
 
       {/* ── Main player ── */}
-      <div className="flex-1 flex flex-col bg-black">
+      <div className="flex-1 flex flex-col bg-white">
         {!hasTokens ? (
           /* Empty state */
           <div className="flex-1 flex flex-col items-center justify-center gap-6 text-center px-6">
             <div className="text-6xl">🤲</div>
             <div className="space-y-2 max-w-sm">
-              <p className="text-white font-semibold text-xl">Write a sentence above</p>
-              <p className="text-white/50 text-sm leading-relaxed">
-                Type a sentence — or tap a word badge — then press <strong className="text-white/70">Play</strong>.
+              <p className="text-foreground font-semibold text-xl">Write a sentence above</p>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                Type a sentence — or tap a word badge — then press <strong className="text-foreground">Play</strong>.
                 Each word plays as one continuous sign sequence.
               </p>
             </div>
@@ -367,7 +365,7 @@ export default function TextToSign() {
                 <button
                   key={v.file}
                   onClick={() => { setInputText(t => t ? t + " " + v.ar : v.ar); setShowInput(true); }}
-                  className="text-sm px-3 py-1.5 rounded-full bg-white/8 hover:bg-primary/25 text-white/70 hover:text-white transition-colors border border-white/10"
+                  className="text-sm px-3 py-1.5 rounded-full bg-muted hover:bg-primary/15 text-muted-foreground hover:text-primary transition-colors border border-border"
                 >
                   {v.ar}
                 </button>
@@ -377,7 +375,7 @@ export default function TextToSign() {
         ) : (
           <div className="flex-1 flex flex-col">
             {/* Video — takes up all available space */}
-            <div className="relative flex-1 bg-black flex items-center justify-center min-h-0">
+            <div className="relative flex-1 bg-muted/20 flex items-center justify-center min-h-0">
               <AnimatePresence mode="wait">
                 {currentToken?.video ? (
                   <motion.div
@@ -405,38 +403,38 @@ export default function TextToSign() {
                     exit={{ opacity: 0 }}
                     className="absolute inset-0 flex flex-col items-center justify-center gap-3"
                   >
-                    <p className="text-5xl md:text-7xl font-bold text-white text-center" dir="rtl">{currentToken.display}</p>
-                    <p className="text-white/40 text-sm">No sign video for this word</p>
+                    <p className="text-5xl md:text-7xl font-bold text-foreground text-center" dir="rtl">{currentToken.display}</p>
+                    <p className="text-muted-foreground text-sm">No sign video for this word</p>
                   </motion.div>
                 ) : null}
               </AnimatePresence>
 
-              {/* Current word overlay — top left */}
+              {/* Current word overlay */}
               {currentToken?.video && (
                 <div className="absolute top-4 left-0 right-0 flex items-center justify-center pointer-events-none">
                   <motion.div
                     key={current}
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-2 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/15"
+                    className="flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full border border-border shadow-sm"
                   >
-                    <span className="text-white font-bold text-lg" dir="rtl">{currentToken.video.ar}</span>
-                    <span className="text-white/50 text-sm">·</span>
-                    <span className="text-white/70 text-sm">{currentToken.video.en}</span>
+                    <span className="text-foreground font-bold text-lg" dir="rtl">{currentToken.video.ar}</span>
+                    <span className="text-muted-foreground text-sm">·</span>
+                    <span className="text-muted-foreground text-sm">{currentToken.video.en}</span>
                   </motion.div>
                 </div>
               )}
 
               {/* Word index */}
-              <div className="absolute top-4 right-4 text-white/40 text-xs font-mono">
+              <div className="absolute top-4 right-4 text-muted-foreground text-xs font-mono bg-white/80 px-2 py-0.5 rounded-full">
                 {current + 1} / {tokens.length}
               </div>
             </div>
 
             {/* ── Bottom controls ── */}
-            <div className="bg-zinc-950 border-t border-white/10 px-4 pt-3 pb-4 space-y-3">
+            <div className="bg-white border-t border-border px-4 pt-3 pb-4 space-y-3 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
               {/* Progress bar */}
-              <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+              <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
                 <motion.div
                   className="h-full bg-primary rounded-full"
                   animate={{ width: `${progress * 100}%` }}
@@ -452,12 +450,12 @@ export default function TextToSign() {
                     onClick={() => goTo(idx)}
                     className={`flex-shrink-0 px-3 py-1 rounded-full text-sm font-medium transition-all border ${
                       idx === current
-                        ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/30 scale-105"
+                        ? "bg-primary text-primary-foreground border-primary shadow-md scale-105"
                         : idx < current
-                        ? "bg-white/5 text-white/30 border-white/10 line-through"
+                        ? "bg-muted text-muted-foreground/40 border-border line-through"
                         : tok.video
-                        ? "bg-white/8 text-white/70 border-white/15 hover:bg-white/15"
-                        : "bg-transparent text-white/25 border-dashed border-white/15"
+                        ? "bg-background text-foreground/70 border-border hover:bg-muted"
+                        : "bg-transparent text-muted-foreground/40 border-dashed border-border"
                     }`}
                   >
                     {tok.display}
@@ -469,20 +467,20 @@ export default function TextToSign() {
               <div className="flex items-center justify-center gap-4">
                 <button
                   onClick={() => goTo(0)}
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                 >
                   <RotateCcw className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => goTo(current - 1)}
                   disabled={current === 0}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-25"
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-25"
                 >
                   <SkipBack className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setPlaying(p => !p)}
-                  className="w-16 h-16 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center shadow-xl shadow-primary/30 transition-all active:scale-95"
+                  className="w-16 h-16 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/25 transition-all active:scale-95"
                 >
                   {playing
                     ? <Pause className="w-7 h-7 text-primary-foreground" />
@@ -491,11 +489,11 @@ export default function TextToSign() {
                 <button
                   onClick={() => goTo(current + 1)}
                   disabled={current === tokens.length - 1}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-25"
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-25"
                 >
                   <SkipForward className="w-5 h-5" />
                 </button>
-                <Badge className={`text-xs border-0 w-9 h-9 items-center justify-center rounded-full ${videoTokens.length === tokens.length ? "bg-green-500/20 text-green-400" : "bg-white/10 text-white/50"}`}>
+                <Badge className={`text-xs border-0 w-9 h-9 items-center justify-center rounded-full ${videoTokens.length === tokens.length ? "bg-green-100 text-green-600" : "bg-muted text-muted-foreground"}`}>
                   {videoTokens.length}/{tokens.length}
                 </Badge>
               </div>
