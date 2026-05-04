@@ -1,18 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
-import { AccessibilityBar } from "@/components/layout/AccessibilityBar";
 import { AnimatedSign, signsList } from "@/components/signs/HandSigns";
 import { useAuth } from "@/hooks/use-auth";
 import { usePreferences } from "@/hooks/use-preferences";
 import { PhrasebookSection } from "@/components/phrasebook/PhrasebookSection";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { User, MessageSquare, Hand, Settings2, Clock, ChevronRight } from "lucide-react";
+import { User, BookOpen, Hand, Camera } from "lucide-react";
 import { motion } from "framer-motion";
 import { LiveCameraTranslation } from "@/components/translation/LiveCameraTranslation";
 import { SpeechToSignTranslation } from "@/components/translation/SpeechToSignTranslation";
@@ -165,10 +161,10 @@ function DictionarySection() {
 
 function FeaturesGrid() {
   const features = [
-    { icon: User, title: "Profile", desc: "Manage your personal details and app preferences." },
-    { icon: MessageSquare, title: "Saved Conversations", desc: "Keep track of important discussions and common phrases." },
-    { icon: Hand, title: "Custom Signs", desc: "Build a personalized vocabulary of signs you use most." },
-    { icon: Settings2, title: "Accessibility", desc: "Adjust contrast, text size, and colors for comfort." },
+    { icon: User, title: "Your Profile", desc: "Manage your personal details and preferences from Settings." },
+    { icon: BookOpen, title: "Daily Phrasebook", desc: "Pre-written Arabic phrases organized by situation — Doctor, Taxi, Food and more." },
+    { icon: Hand, title: "Sign Dictionary", desc: "Learn and review common Jordanian Sign Language gestures with animated guides." },
+    { icon: Camera, title: "Live Translation", desc: "Translate signs to Arabic text via camera, or convert speech into animated signs." },
   ];
 
   return (
@@ -257,7 +253,6 @@ export default function Home() {
       <Navbar />
       <main className="flex-1 pb-20">
         <Hero />
-        <AccessibilityBar />
         <TranslationSection />
         <DictionarySection />
         <FeaturesGrid />

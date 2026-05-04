@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Auth from "@/pages/auth";
 import Home from "@/pages/home";
+import Settings from "@/pages/settings";
+import Contact from "@/pages/contact";
 import { usePreferences } from "@/hooks/use-preferences";
 import { useEffect } from "react";
 
@@ -15,6 +17,8 @@ function Router() {
     <Switch>
       <Route path="/" component={Auth} />
       <Route path="/home" component={Home} />
+      <Route path="/settings" component={Settings} />
+      <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>
   );
