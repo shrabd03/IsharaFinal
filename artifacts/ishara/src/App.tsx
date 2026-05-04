@@ -8,6 +8,8 @@ import Home from "@/pages/home";
 import Settings from "@/pages/settings";
 import Contact from "@/pages/contact";
 import Phrasebook from "@/pages/phrasebook";
+import SignToText from "@/pages/sign-to-text";
+import TextToSign from "@/pages/text-to-sign";
 import { usePreferences } from "@/hooks/use-preferences";
 import { useEffect } from "react";
 
@@ -21,6 +23,8 @@ function Router() {
       <Route path="/settings" component={Settings} />
       <Route path="/contact" component={Contact} />
       <Route path="/phrasebook" component={Phrasebook} />
+      <Route path="/sign-to-text" component={SignToText} />
+      <Route path="/text-to-sign" component={TextToSign} />
       <Route component={NotFound} />
     </Switch>
   );

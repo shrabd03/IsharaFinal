@@ -7,7 +7,7 @@ import { usePreferences } from "@/hooks/use-preferences";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Hand, Eye, Target } from "lucide-react";
+import { Hand, Eye, Target, Camera, Type } from "lucide-react";
 import { motion } from "framer-motion";
 
 function Hero() {
@@ -68,6 +68,64 @@ function Hero() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+function TranslationCTA() {
+  const [, setLocation] = useLocation();
+  return (
+    <section className="py-14 bg-gradient-to-b from-primary/5 to-background">
+      <div className="container mx-auto px-4 max-w-4xl">
+        <div className="text-center mb-8">
+          <Badge className="mb-3 bg-primary/10 text-primary border-0">AI Translation</Badge>
+          <h2 className="text-2xl md:text-3xl font-serif text-foreground mb-2">Two-way communication</h2>
+          <p className="text-muted-foreground text-sm max-w-lg mx-auto">
+            Translate Jordanian Sign Language to text via camera, or convert your words into visual signs.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-5">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            onClick={() => setLocation("/sign-to-text")}
+            className="group relative rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary/8 to-primary/3 p-8 flex flex-col items-center gap-4 text-center hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+          >
+            <div className="w-20 h-20 rounded-2xl bg-primary/15 text-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
+              <Camera className="w-10 h-10" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-foreground mb-1">Sign → Text</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Open the camera, perform JSL signs, and watch them convert to Arabic text in real time.
+              </p>
+            </div>
+            <Badge className="bg-primary/10 text-primary border-0 text-xs">Live camera · AI powered</Badge>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.12 }}
+            onClick={() => setLocation("/text-to-sign")}
+            className="group relative rounded-2xl border-2 border-secondary/30 bg-gradient-to-br from-secondary/8 to-secondary/3 p-8 flex flex-col items-center gap-4 text-center hover:border-secondary/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+          >
+            <div className="w-20 h-20 rounded-2xl bg-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
+              <Type className="w-10 h-10 text-secondary" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-foreground mb-1">Text → Sign</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Type a message or speak in Arabic — each word becomes a JSL sign animation you can show others.
+              </p>
+            </div>
+            <Badge className="bg-secondary/15 text-secondary-foreground border-0 text-xs">Type or voice · Sign animations</Badge>
+          </motion.button>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -204,6 +262,7 @@ export default function Home() {
       <Navbar />
       <main className="flex-1 pb-20">
         <Hero />
+        <TranslationCTA />
         <DictionarySection />
         <VisionMissionSection />
       </main>
