@@ -39,7 +39,7 @@ function Hero() {
             A calm, dignified space for deaf and mute users in Jordan to communicate, learn, and save conversations using Jordanian Arabic Sign Language.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button size="lg" className="bg-yellow-100 text-yellow-900 hover:bg-yellow-200 h-12 px-8 text-lg border-0 shadow-sm" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
+            <Button size="lg" variant="outline" className="border-primary-foreground/30 text-white hover:bg-primary-foreground/10 hover:text-white h-12 px-8 text-lg" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
               Get started
             </Button>
             <Button size="lg" variant="outline" className="border-primary-foreground/30 text-white hover:bg-primary-foreground/10 hover:text-white h-12 px-8 text-lg" onClick={() => document.getElementById("dictionary")?.scrollIntoView({ behavior: "smooth" })}>
@@ -56,7 +56,6 @@ function Hero() {
               <motion.div style={{ transformOrigin: "70% 85%" }} animate={{ rotate: [0, -22, 18, -16, 12, 0] }} transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 1.2, ease: "easeInOut" }}>
                 <Hand className="w-56 h-56 drop-shadow-[0_8px_30px_rgba(0,0,0,0.35)]" strokeWidth={1.5} />
               </motion.div>
-              <Badge className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-secondary text-secondary-foreground border-0 px-4 py-1 text-sm">JSL</Badge>
             </motion.div>
             <motion.div className="absolute top-2 -left-6 bg-white/10 backdrop-blur-md p-3 rounded-2xl shadow-xl ring-1 ring-white/20" animate={{ y: [0, -8, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
               <AnimatedSign signId="hello" />
