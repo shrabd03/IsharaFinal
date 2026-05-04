@@ -90,18 +90,18 @@ function TranslationCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
             onClick={() => setLocation("/sign-to-text")}
-            className="group relative rounded-2xl border-2 border-teal-200 bg-gradient-to-br from-teal-50 to-cyan-100/60 p-8 flex flex-col items-center gap-4 text-center hover:border-teal-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+            className="group relative rounded-2xl border-2 border-[#1d4a4e] bg-[#266065] p-8 flex flex-col items-center gap-4 text-center hover:brightness-110 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
           >
-            <div className="w-20 h-20 rounded-2xl bg-primary/15 text-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
-              <Camera className="w-10 h-10" strokeWidth={1.5} />
+            <div className="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
+              <Camera className="w-10 h-10 text-white" strokeWidth={1.5} />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-foreground mb-1">Sign → Text</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-1">Sign → Text</h3>
+              <p className="text-sm text-white/75 leading-relaxed">
                 Open the camera, perform JSL signs, and watch them convert to Arabic text in real time.
               </p>
             </div>
-            <Badge className="bg-primary/10 text-primary border-0 text-xs">Live camera · AI powered</Badge>
+            <Badge className="bg-white/20 text-white border-0 text-xs">Live camera · AI powered</Badge>
           </motion.button>
 
           <motion.button
@@ -110,18 +110,18 @@ function TranslationCTA() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.12 }}
             onClick={() => setLocation("/text-to-sign")}
-            className="group relative rounded-2xl border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100/60 p-8 flex flex-col items-center gap-4 text-center hover:border-yellow-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+            className="group relative rounded-2xl border-2 border-[#b8c230] bg-[#DBE63D] p-8 flex flex-col items-center gap-4 text-center hover:brightness-105 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
           >
-            <div className="w-20 h-20 rounded-2xl bg-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
-              <Type className="w-10 h-10 text-secondary" strokeWidth={1.5} />
+            <div className="w-20 h-20 rounded-2xl bg-black/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
+              <Type className="w-10 h-10 text-[#1a3d40]" strokeWidth={1.5} />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-foreground mb-1">Text → Sign</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <h3 className="text-xl font-bold text-[#1a3d40] mb-1">Text → Sign</h3>
+              <p className="text-sm text-[#1a3d40]/70 leading-relaxed">
                 Type a message or speak in Arabic — each word becomes a JSL sign animation you can show others.
               </p>
             </div>
-            <Badge className="bg-secondary/15 text-secondary-foreground border-0 text-xs">Type or voice · Sign animations</Badge>
+            <Badge className="bg-black/10 text-[#1a3d40] border-0 text-xs">Type or voice · Sign animations</Badge>
           </motion.button>
         </div>
       </div>
@@ -193,21 +193,21 @@ function VisionMissionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="h-full border-teal-200 bg-gradient-to-br from-teal-50 to-cyan-100/50 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="h-full border-[#1d4a4e] bg-[#266065] shadow-sm hover:shadow-md transition-shadow">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-primary/15 text-primary flex items-center justify-center">
-                    <Eye className="w-6 h-6" />
+                  <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center">
+                    <Eye className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Vision</p>
-                    <h3 className="text-xl font-serif font-semibold text-foreground">Why we exist</h3>
+                    <p className="text-xs uppercase tracking-widest text-white/60 font-medium">Vision</p>
+                    <h3 className="text-xl font-serif font-semibold text-white">Why we exist</h3>
                   </div>
                 </div>
-                <p className="text-foreground/80 leading-relaxed">
+                <p className="text-white/85 leading-relaxed">
                   To create a world where communication has no barriers — where deaf and hearing people can understand each other naturally, instantly, and without limitations of language or ability.
                 </p>
-                <p className="text-muted-foreground leading-relaxed text-sm">
+                <p className="text-white/60 leading-relaxed text-sm">
                   Ishara envisions a future where technology turns every human interaction into a shared experience, not a divided one.
                 </p>
               </CardContent>
@@ -220,21 +220,21 @@ function VisionMissionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-            <Card className="h-full border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100/50 shadow-sm hover:shadow-md transition-shadow">
+            <Card className="h-full border-[#b8c230] bg-[#DBE63D] shadow-sm hover:shadow-md transition-shadow">
               <CardContent className="p-8 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-secondary/20 text-secondary-foreground flex items-center justify-center">
-                    <Target className="w-6 h-6 text-secondary" />
+                  <div className="w-11 h-11 rounded-xl bg-black/10 flex items-center justify-center">
+                    <Target className="w-6 h-6 text-[#1a3d40]" />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Mission</p>
-                    <h3 className="text-xl font-serif font-semibold text-foreground">What we do</h3>
+                    <p className="text-xs uppercase tracking-widest text-[#1a3d40]/70 font-medium">Mission</p>
+                    <h3 className="text-xl font-serif font-semibold text-[#1a3d40]">What we do</h3>
                   </div>
                 </div>
-                <p className="text-foreground/80 leading-relaxed">
+                <p className="text-[#1a3d40]/80 leading-relaxed">
                   Ishara bridges communication between deaf and hearing individuals using real-time AI translation. We transform sign language captured by camera into clear words for hearing users, and spoken or typed language into visual sign-based expressions for deaf users.
                 </p>
-                <p className="text-muted-foreground leading-relaxed text-sm">
+                <p className="text-[#1a3d40]/60 leading-relaxed text-sm">
                   Our mission is to make everyday communication inclusive, simple, and immediate — so no one is left out of the conversation.
                 </p>
               </CardContent>
