@@ -3,214 +3,156 @@ import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, Mic, MicOff, Send, Trash2,
-  SkipBack, SkipForward, Play, Pause, RotateCcw,
+  SkipBack, SkipForward, Play, Pause, RotateCcw, ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/use-auth";
 
 /* ─── Video dictionary ─────────────────────────────────────────────────────── */
-
 type VideoEntry = { file: string; ar: string; en: string };
 
-/** Every Arabic / English variant that maps to a video. Keys are lowercase-trimmed. */
 const VIDEO_MAP: Record<string, VideoEntry> = {
-  // marhaba – hello
-  "مرحبا":    { file: "marhaba.mp4", ar: "مرحبا",    en: "Hello" },
-  "مرحباً":   { file: "marhaba.mp4", ar: "مرحبا",    en: "Hello" },
-  "مرحبه":    { file: "marhaba.mp4", ar: "مرحبا",    en: "Hello" },
-  "hello":    { file: "marhaba.mp4", ar: "مرحبا",    en: "Hello" },
-  "hi":       { file: "marhaba.mp4", ar: "مرحبا",    en: "Hello" },
-  "marhaba":  { file: "marhaba.mp4", ar: "مرحبا",    en: "Hello" },
-
-  // na3am – yes
-  "نعم":      { file: "na3am.mp4",   ar: "نعم",      en: "Yes" },
-  "اه":       { file: "na3am.mp4",   ar: "نعم",      en: "Yes" },
-  "yes":      { file: "na3am.mp4",   ar: "نعم",      en: "Yes" },
-  "na3am":    { file: "na3am.mp4",   ar: "نعم",      en: "Yes" },
-
-  // la – no
-  "لا":       { file: "la.mp4",      ar: "لا",       en: "No" },
-  "no":       { file: "la.mp4",      ar: "لا",       en: "No" },
-  "la":       { file: "la.mp4",      ar: "لا",       en: "No" },
-
-  // shokran – thank you
-  "شكراً":    { file: "shokran.mp4", ar: "شكراً",    en: "Thank you" },
-  "شكرا":     { file: "shokran.mp4", ar: "شكراً",    en: "Thank you" },
-  "شكر":      { file: "shokran.mp4", ar: "شكراً",    en: "Thank you" },
-  "thank you":{ file: "shokran.mp4", ar: "شكراً",    en: "Thank you" },
-  "thanks":   { file: "shokran.mp4", ar: "شكراً",    en: "Thank you" },
-  "shokran":  { file: "shokran.mp4", ar: "شكراً",    en: "Thank you" },
-
-  // ana – I / me
-  "أنا":      { file: "ana.mp4",     ar: "أنا",      en: "I / Me" },
-  "انا":      { file: "ana.mp4",     ar: "أنا",      en: "I / Me" },
-  "me":       { file: "ana.mp4",     ar: "أنا",      en: "I / Me" },
-  "i":        { file: "ana.mp4",     ar: "أنا",      en: "I / Me" },
-  "ana":      { file: "ana.mp4",     ar: "أنا",      en: "I / Me" },
-
-  // anta – you
-  "أنت":      { file: "anta.mp4",    ar: "أنت",      en: "You" },
-  "انت":      { file: "anta.mp4",    ar: "أنت",      en: "You" },
-  "you":      { file: "anta.mp4",    ar: "أنت",      en: "You" },
-  "anta":     { file: "anta.mp4",    ar: "أنت",      en: "You" },
-
-  // mosa3ada – help
-  "مساعدة":   { file: "mosa3ada.mp4",ar: "مساعدة",   en: "Help" },
-  "مساعده":   { file: "mosa3ada.mp4",ar: "مساعدة",   en: "Help" },
-  "help":     { file: "mosa3ada.mp4",ar: "مساعدة",   en: "Help" },
-  "mosa3ada": { file: "mosa3ada.mp4",ar: "مساعدة",   en: "Help" },
-
-  // adros – I study
-  "ادرس":     { file: "adros.mp4",   ar: "ادرس",     en: "I study" },
-  "أدرس":     { file: "adros.mp4",   ar: "ادرس",     en: "I study" },
-  "adros":    { file: "adros.mp4",   ar: "ادرس",     en: "I study" },
-  "study":    { file: "adros.mp4",   ar: "ادرس",     en: "I study" },
-
-  // afham – I understand
-  "أفهم":     { file: "afham.mp4",   ar: "أفهم",     en: "I understand" },
-  "افهم":     { file: "afham.mp4",   ar: "أفهم",     en: "I understand" },
-  "afham":    { file: "afham.mp4",   ar: "أفهم",     en: "I understand" },
-  "understand":{ file: "afham.mp4",  ar: "أفهم",     en: "I understand" },
-
-  // athhab – I go
-  "أذهب":     { file: "athhab.mp4",  ar: "أذهب",     en: "I go" },
-  "اذهب":     { file: "athhab.mp4",  ar: "أذهب",     en: "I go" },
-  "athhab":   { file: "athhab.mp4",  ar: "أذهب",     en: "I go" },
-  "go":       { file: "athhab.mp4",  ar: "أذهب",     en: "I go" },
-
-  // beddi – I want
-  "بدي":      { file: "beddi.mp4",   ar: "بدي",      en: "I want" },
-  "بدّي":     { file: "beddi.mp4",   ar: "بدي",      en: "I want" },
-  "أريد":     { file: "beddi.mp4",   ar: "بدي",      en: "I want" },
-  "اريد":     { file: "beddi.mp4",   ar: "بدي",      en: "I want" },
-  "beddi":    { file: "beddi.mp4",   ar: "بدي",      en: "I want" },
-  "want":     { file: "beddi.mp4",   ar: "بدي",      en: "I want" },
-
-  // logha – language
-  "لغة":      { file: "logha.mp4",   ar: "لغة",      en: "Language" },
-  "اللغة":    { file: "logha.mp4",   ar: "لغة",      en: "Language" },
-  "logha":    { file: "logha.mp4",   ar: "لغة",      en: "Language" },
-  "language": { file: "logha.mp4",   ar: "لغة",      en: "Language" },
-
-  // mai – water
-  "ماء":      { file: "mai.mp4",     ar: "ماء",      en: "Water" },
-  "الماء":    { file: "mai.mp4",     ar: "ماء",      en: "Water" },
-  "ماي":      { file: "mai.mp4",     ar: "ماء",      en: "Water" },
-  "mai":      { file: "mai.mp4",     ar: "ماء",      en: "Water" },
-  "water":    { file: "mai.mp4",     ar: "ماء",      en: "Water" },
-
-  // mashroo3 – project
-  "مشروع":    { file: "mashroo3.mp4",ar: "مشروع",    en: "Project" },
-  "المشروع":  { file: "mashroo3.mp4",ar: "مشروع",    en: "Project" },
-  "mashroo3": { file: "mashroo3.mp4",ar: "مشروع",    en: "Project" },
-  "project":  { file: "mashroo3.mp4",ar: "مشروع",    en: "Project" },
-
-  // taleb – student
-  "طالب":     { file: "taleb.mp4",   ar: "طالب",     en: "Student" },
-  "الطالب":   { file: "taleb.mp4",   ar: "طالب",     en: "Student" },
-  "taleb":    { file: "taleb.mp4",   ar: "طالب",     en: "Student" },
-  "student":  { file: "taleb.mp4",   ar: "طالب",     en: "Student" },
-
-  // jam3a – university
-  "جامعة":    { file: "jam3a.mp4",   ar: "جامعة",    en: "University" },
-  "الجامعة":  { file: "jam3a.mp4",   ar: "جامعة",    en: "University" },
-  "jam3a":    { file: "jam3a.mp4",   ar: "جامعة",    en: "University" },
-  "university":{ file: "jam3a.mp4",  ar: "جامعة",    en: "University" },
-
-  // ta3am – food
-  "طعام":     { file: "ta3am.mp4",   ar: "طعام",     en: "Food" },
-  "الطعام":   { file: "ta3am.mp4",   ar: "طعام",     en: "Food" },
-  "اكل":      { file: "ta3am.mp4",   ar: "طعام",     en: "Food" },
-  "أكل":      { file: "ta3am.mp4",   ar: "طعام",     en: "Food" },
-  "ta3am":    { file: "ta3am.mp4",   ar: "طعام",     en: "Food" },
-  "food":     { file: "ta3am.mp4",   ar: "طعام",     en: "Food" },
-
-  // takharroj – graduation
-  "تخرج":     { file: "takharroj.mp4",ar: "تخرج",    en: "Graduation" },
-  "التخرج":   { file: "takharroj.mp4",ar: "تخرج",    en: "Graduation" },
-  "takharroj":{ file: "takharroj.mp4",ar: "تخرج",    en: "Graduation" },
-  "graduation":{ file: "takharroj.mp4",ar: "تخرج",   en: "Graduation" },
-
-  // wada3an – goodbye
-  "وداعاً":   { file: "wada3an.mp4", ar: "وداعاً",   en: "Goodbye" },
-  "وداعا":    { file: "wada3an.mp4", ar: "وداعاً",   en: "Goodbye" },
-  "وداع":     { file: "wada3an.mp4", ar: "وداعاً",   en: "Goodbye" },
-  "bye":      { file: "wada3an.mp4", ar: "وداعاً",   en: "Goodbye" },
-  "goodbye":  { file: "wada3an.mp4", ar: "وداعاً",   en: "Goodbye" },
-  "wada3an":  { file: "wada3an.mp4", ar: "وداعاً",   en: "Goodbye" },
-
-  // wein – where
-  "وين":      { file: "wein.mp4",    ar: "وين",      en: "Where" },
-  "أين":      { file: "wein.mp4",    ar: "وين",      en: "Where" },
-  "اين":      { file: "wein.mp4",    ar: "وين",      en: "Where" },
-  "wein":     { file: "wein.mp4",    ar: "وين",      en: "Where" },
-  "where":    { file: "wein.mp4",    ar: "وين",      en: "Where" },
-
-  // ishara – sign
-  "إشارة":    { file: "ishara.mp4",  ar: "إشارة",    en: "Sign" },
-  "اشارة":    { file: "ishara.mp4",  ar: "إشارة",    en: "Sign" },
-  "ishara":   { file: "ishara.mp4",  ar: "إشارة",    en: "Sign" },
-  "sign":     { file: "ishara.mp4",  ar: "إشارة",    en: "Sign" },
-
-  // LawSamaht – please / excuse me (2-word key too)
-  "لو سمحت":  { file: "LawSamaht.mp4", ar: "لو سمحت", en: "Please / Excuse me" },
-  "لوسمحت":   { file: "LawSamaht.mp4", ar: "لو سمحت", en: "Please / Excuse me" },
-  "من فضلك":  { file: "LawSamaht.mp4", ar: "لو سمحت", en: "Please / Excuse me" },
-  "لو":       { file: "LawSamaht.mp4", ar: "لو سمحت", en: "Please / Excuse me" },
-  "lawsamaht":{ file: "LawSamaht.mp4", ar: "لو سمحت", en: "Please / Excuse me" },
-  "please":   { file: "LawSamaht.mp4", ar: "لو سمحت", en: "Please / Excuse me" },
-  "excuse me":{ file: "LawSamaht.mp4", ar: "لو سمحت", en: "Please / Excuse me" },
+  "مرحبا":     { file: "marhaba.mp4",    ar: "مرحبا",     en: "Hello" },
+  "مرحباً":    { file: "marhaba.mp4",    ar: "مرحبا",     en: "Hello" },
+  "مرحبه":     { file: "marhaba.mp4",    ar: "مرحبا",     en: "Hello" },
+  "hello":     { file: "marhaba.mp4",    ar: "مرحبا",     en: "Hello" },
+  "hi":        { file: "marhaba.mp4",    ar: "مرحبا",     en: "Hello" },
+  "marhaba":   { file: "marhaba.mp4",    ar: "مرحبا",     en: "Hello" },
+  "نعم":       { file: "na3am.mp4",      ar: "نعم",       en: "Yes" },
+  "اه":        { file: "na3am.mp4",      ar: "نعم",       en: "Yes" },
+  "yes":       { file: "na3am.mp4",      ar: "نعم",       en: "Yes" },
+  "na3am":     { file: "na3am.mp4",      ar: "نعم",       en: "Yes" },
+  "لا":        { file: "la.mp4",         ar: "لا",        en: "No" },
+  "no":        { file: "la.mp4",         ar: "لا",        en: "No" },
+  "la":        { file: "la.mp4",         ar: "لا",        en: "No" },
+  "شكراً":     { file: "shokran.mp4",    ar: "شكراً",     en: "Thank you" },
+  "شكرا":      { file: "shokran.mp4",    ar: "شكراً",     en: "Thank you" },
+  "شكر":       { file: "shokran.mp4",    ar: "شكراً",     en: "Thank you" },
+  "thank you": { file: "shokran.mp4",    ar: "شكراً",     en: "Thank you" },
+  "thanks":    { file: "shokran.mp4",    ar: "شكراً",     en: "Thank you" },
+  "shokran":   { file: "shokran.mp4",    ar: "شكراً",     en: "Thank you" },
+  "أنا":       { file: "ana.mp4",        ar: "أنا",       en: "I / Me" },
+  "انا":       { file: "ana.mp4",        ar: "أنا",       en: "I / Me" },
+  "me":        { file: "ana.mp4",        ar: "أنا",       en: "I / Me" },
+  "i":         { file: "ana.mp4",        ar: "أنا",       en: "I / Me" },
+  "ana":       { file: "ana.mp4",        ar: "أنا",       en: "I / Me" },
+  "أنت":       { file: "anta.mp4",       ar: "أنت",       en: "You" },
+  "انت":       { file: "anta.mp4",       ar: "أنت",       en: "You" },
+  "you":       { file: "anta.mp4",       ar: "أنت",       en: "You" },
+  "anta":      { file: "anta.mp4",       ar: "أنت",       en: "You" },
+  "مساعدة":    { file: "mosa3ada.mp4",   ar: "مساعدة",    en: "Help" },
+  "مساعده":    { file: "mosa3ada.mp4",   ar: "مساعدة",    en: "Help" },
+  "help":      { file: "mosa3ada.mp4",   ar: "مساعدة",    en: "Help" },
+  "mosa3ada":  { file: "mosa3ada.mp4",   ar: "مساعدة",    en: "Help" },
+  "ادرس":      { file: "adros.mp4",      ar: "ادرس",      en: "I study" },
+  "أدرس":      { file: "adros.mp4",      ar: "ادرس",      en: "I study" },
+  "adros":     { file: "adros.mp4",      ar: "ادرس",      en: "I study" },
+  "study":     { file: "adros.mp4",      ar: "ادرس",      en: "I study" },
+  "أفهم":      { file: "afham.mp4",      ar: "أفهم",      en: "I understand" },
+  "افهم":      { file: "afham.mp4",      ar: "أفهم",      en: "I understand" },
+  "afham":     { file: "afham.mp4",      ar: "أفهم",      en: "I understand" },
+  "understand":{ file: "afham.mp4",      ar: "أفهم",      en: "I understand" },
+  "أذهب":      { file: "athhab.mp4",     ar: "أذهب",      en: "I go" },
+  "اذهب":      { file: "athhab.mp4",     ar: "أذهب",      en: "I go" },
+  "athhab":    { file: "athhab.mp4",     ar: "أذهب",      en: "I go" },
+  "go":        { file: "athhab.mp4",     ar: "أذهب",      en: "I go" },
+  "بدي":       { file: "beddi.mp4",      ar: "بدي",       en: "I want" },
+  "بدّي":      { file: "beddi.mp4",      ar: "بدي",       en: "I want" },
+  "أريد":      { file: "beddi.mp4",      ar: "بدي",       en: "I want" },
+  "اريد":      { file: "beddi.mp4",      ar: "بدي",       en: "I want" },
+  "beddi":     { file: "beddi.mp4",      ar: "بدي",       en: "I want" },
+  "want":      { file: "beddi.mp4",      ar: "بدي",       en: "I want" },
+  "لغة":       { file: "logha.mp4",      ar: "لغة",       en: "Language" },
+  "اللغة":     { file: "logha.mp4",      ar: "لغة",       en: "Language" },
+  "logha":     { file: "logha.mp4",      ar: "لغة",       en: "Language" },
+  "language":  { file: "logha.mp4",      ar: "لغة",       en: "Language" },
+  "ماء":       { file: "mai.mp4",        ar: "ماء",       en: "Water" },
+  "الماء":     { file: "mai.mp4",        ar: "ماء",       en: "Water" },
+  "ماي":       { file: "mai.mp4",        ar: "ماء",       en: "Water" },
+  "mai":       { file: "mai.mp4",        ar: "ماء",       en: "Water" },
+  "water":     { file: "mai.mp4",        ar: "ماء",       en: "Water" },
+  "مشروع":     { file: "mashroo3.mp4",   ar: "مشروع",     en: "Project" },
+  "المشروع":   { file: "mashroo3.mp4",   ar: "مشروع",     en: "Project" },
+  "mashroo3":  { file: "mashroo3.mp4",   ar: "مشروع",     en: "Project" },
+  "project":   { file: "mashroo3.mp4",   ar: "مشروع",     en: "Project" },
+  "طالب":      { file: "taleb.mp4",      ar: "طالب",      en: "Student" },
+  "الطالب":    { file: "taleb.mp4",      ar: "طالب",      en: "Student" },
+  "taleb":     { file: "taleb.mp4",      ar: "طالب",      en: "Student" },
+  "student":   { file: "taleb.mp4",      ar: "طالب",      en: "Student" },
+  "جامعة":     { file: "jam3a.mp4",      ar: "جامعة",     en: "University" },
+  "الجامعة":   { file: "jam3a.mp4",      ar: "جامعة",     en: "University" },
+  "jam3a":     { file: "jam3a.mp4",      ar: "جامعة",     en: "University" },
+  "university":{ file: "jam3a.mp4",      ar: "جامعة",     en: "University" },
+  "طعام":      { file: "ta3am.mp4",      ar: "طعام",      en: "Food" },
+  "الطعام":    { file: "ta3am.mp4",      ar: "طعام",      en: "Food" },
+  "اكل":       { file: "ta3am.mp4",      ar: "طعام",      en: "Food" },
+  "أكل":       { file: "ta3am.mp4",      ar: "طعام",      en: "Food" },
+  "ta3am":     { file: "ta3am.mp4",      ar: "طعام",      en: "Food" },
+  "food":      { file: "ta3am.mp4",      ar: "طعام",      en: "Food" },
+  "تخرج":      { file: "takharroj.mp4",  ar: "تخرج",      en: "Graduation" },
+  "التخرج":    { file: "takharroj.mp4",  ar: "تخرج",      en: "Graduation" },
+  "takharroj": { file: "takharroj.mp4",  ar: "تخرج",      en: "Graduation" },
+  "graduation":{ file: "takharroj.mp4",  ar: "تخرج",      en: "Graduation" },
+  "وداعاً":    { file: "wada3an.mp4",    ar: "وداعاً",    en: "Goodbye" },
+  "وداعا":     { file: "wada3an.mp4",    ar: "وداعاً",    en: "Goodbye" },
+  "وداع":      { file: "wada3an.mp4",    ar: "وداعاً",    en: "Goodbye" },
+  "bye":       { file: "wada3an.mp4",    ar: "وداعاً",    en: "Goodbye" },
+  "goodbye":   { file: "wada3an.mp4",    ar: "وداعاً",    en: "Goodbye" },
+  "wada3an":   { file: "wada3an.mp4",    ar: "وداعاً",    en: "Goodbye" },
+  "وين":       { file: "wein.mp4",       ar: "وين",       en: "Where" },
+  "أين":       { file: "wein.mp4",       ar: "وين",       en: "Where" },
+  "اين":       { file: "wein.mp4",       ar: "وين",       en: "Where" },
+  "wein":      { file: "wein.mp4",       ar: "وين",       en: "Where" },
+  "where":     { file: "wein.mp4",       ar: "وين",       en: "Where" },
+  "إشارة":     { file: "ishara.mp4",     ar: "إشارة",     en: "Sign" },
+  "اشارة":     { file: "ishara.mp4",     ar: "إشارة",     en: "Sign" },
+  "ishara":    { file: "ishara.mp4",     ar: "إشارة",     en: "Sign" },
+  "sign":      { file: "ishara.mp4",     ar: "إشارة",     en: "Sign" },
+  "لو سمحت":   { file: "LawSamaht.mp4", ar: "لو سمحت",   en: "Please" },
+  "لوسمحت":    { file: "LawSamaht.mp4", ar: "لو سمحت",   en: "Please" },
+  "من فضلك":   { file: "LawSamaht.mp4", ar: "لو سمحت",   en: "Please" },
+  "لو":        { file: "LawSamaht.mp4", ar: "لو سمحت",   en: "Please" },
+  "lawsamaht": { file: "LawSamaht.mp4", ar: "لو سمحت",   en: "Please" },
+  "please":    { file: "LawSamaht.mp4", ar: "لو سمحت",   en: "Please" },
+  "excuse me": { file: "LawSamaht.mp4", ar: "لو سمحت",   en: "Please" },
 };
 
-/* ─── Token type ────────────────────────────────────────────────────────────── */
-type Token = {
-  display: string;          // original text to show in the word strip
-  video: VideoEntry | null; // null = no video for this word
-};
+/* Unique signs for the badge panel (deduplicated by file) */
+const SIGN_BADGES = Object.values(
+  Object.fromEntries(Object.values(VIDEO_MAP).map(v => [v.file, v]))
+) as VideoEntry[];
 
-/* ─── Tokeniser ─────────────────────────────────────────────────────────────── */
+type Token = { display: string; video: VideoEntry | null };
+
 function tokenise(text: string): Token[] {
-  // Strip Arabic diacritics, normalise whitespace
   const clean = text
-    .replace(/[\u064B-\u065F\u0670]/g, "")   // Arabic diacritics
-    .replace(/[.,،!؟?؛;:،]/g, " ")           // punctuation → space
+    .replace(/[\u064B-\u065F\u0670]/g, "")
+    .replace(/[.,،!؟?؛;:]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-
   const words = clean.split(" ").filter(Boolean);
   const tokens: Token[] = [];
   let i = 0;
-
   while (i < words.length) {
-    // Try 3-word match, then 2-word, then 1-word
     let matched = false;
     for (const len of [3, 2, 1]) {
       if (i + len > words.length) continue;
-      const phrase = words.slice(i, i + len).join(" ");
-      const key = phrase.toLowerCase().trim();
+      const key = words.slice(i, i + len).join(" ").toLowerCase().trim();
       if (VIDEO_MAP[key]) {
-        tokens.push({ display: phrase, video: VIDEO_MAP[key] });
-        i += len;
-        matched = true;
-        break;
+        tokens.push({ display: words.slice(i, i + len).join(" "), video: VIDEO_MAP[key] });
+        i += len; matched = true; break;
       }
     }
-    if (!matched) {
-      tokens.push({ display: words[i], video: null });
-      i++;
-    }
+    if (!matched) { tokens.push({ display: words[i], video: null }); i++; }
   }
   return tokens;
 }
 
-/* ─── Speech recognition shim ──────────────────────────────────────────────── */
+/* Speech recognition types */
 interface ISpeechRecognition extends EventTarget {
-  continuous: boolean;
-  interimResults: boolean;
-  lang: string;
-  start(): void;
-  stop(): void;
+  continuous: boolean; interimResults: boolean; lang: string;
+  start(): void; stop(): void;
   onresult: ((e: { results: SpeechRecognitionResultList }) => void) | null;
   onend: (() => void) | null;
   onerror: ((e: Event) => void) | null;
@@ -229,10 +171,11 @@ export default function TextToSign() {
 
   const [inputText, setInputText] = useState("");
   const [tokens, setTokens] = useState<Token[]>([]);
-  const [current, setCurrent] = useState(0);          // index into tokens
+  const [current, setCurrent] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [listening, setListening] = useState(false);
   const [hasVoice, setHasVoice] = useState(false);
+  const [showInput, setShowInput] = useState(true);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const recRef = useRef<ISpeechRecognition | null>(null);
@@ -243,29 +186,36 @@ export default function TextToSign() {
     setHasVoice(!!(window.SpeechRecognition || window.webkitSpeechRecognition));
   }, [user]);
 
-  /* When current token changes while playing, load + play the new video */
+  /* Drive the queue: when current changes, load & play or skip unknown */
   useEffect(() => {
     if (!tokens.length) return;
-    const tok = tokens[current];
-
     if (skipTimerRef.current) clearTimeout(skipTimerRef.current);
-
+    const tok = tokens[current];
     if (tok.video) {
       if (videoRef.current) {
         videoRef.current.load();
         if (playing) videoRef.current.play().catch(() => {});
       }
-    } else {
-      // No video: show word card for 1.8 s then advance
-      if (playing) {
-        skipTimerRef.current = setTimeout(() => {
-          if (current < tokens.length - 1) setCurrent(c => c + 1);
-          else setPlaying(false);
-        }, 1800);
-      }
+    } else if (playing) {
+      skipTimerRef.current = setTimeout(() => advance(), 1200);
     }
     return () => { if (skipTimerRef.current) clearTimeout(skipTimerRef.current); };
   }, [current, tokens]);
+
+  /* Sync play/pause */
+  useEffect(() => {
+    if (!videoRef.current || !tokens[current]?.video) return;
+    if (playing) videoRef.current.play().catch(() => {});
+    else videoRef.current.pause();
+  }, [playing]);
+
+  const advance = useCallback(() => {
+    setCurrent(c => {
+      if (c < tokens.length - 1) return c + 1;
+      setPlaying(false);
+      return c;
+    });
+  }, [tokens.length]);
 
   const handleConvert = useCallback(() => {
     if (!inputText.trim()) return;
@@ -273,235 +223,285 @@ export default function TextToSign() {
     setTokens(toks);
     setCurrent(0);
     setPlaying(false);
-    setTimeout(() => {
-      setPlaying(true);
-    }, 80);
+    setShowInput(false);
+    setTimeout(() => setPlaying(true), 100);
   }, [inputText]);
 
-  const handleVideoEnded = () => {
-    if (current < tokens.length - 1) {
-      setCurrent(c => c + 1);
-    } else {
-      setPlaying(false);
-    }
+  const handleClear = () => {
+    setInputText(""); setTokens([]); setCurrent(0); setPlaying(false);
+    setShowInput(true);
+    if (skipTimerRef.current) clearTimeout(skipTimerRef.current);
   };
 
-  /* Sync play/pause with video element */
-  useEffect(() => {
-    if (!videoRef.current || !tokens[current]?.video) return;
-    if (playing) videoRef.current.play().catch(() => {});
-    else videoRef.current.pause();
-  }, [playing]);
+  const goTo = (idx: number) => { setCurrent(idx); setPlaying(true); };
 
-  const goTo = (idx: number) => {
-    if (idx < 0 || idx >= tokens.length) return;
-    setCurrent(idx);
-    setPlaying(true);
-  };
-
-  /* Voice input */
   const toggleListening = useCallback(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) return;
     if (listening) { recRef.current?.stop(); setListening(false); return; }
     const rec = new SR();
-    rec.continuous = false;
-    rec.interimResults = true;
-    rec.lang = "ar-JO";
+    rec.continuous = false; rec.interimResults = true; rec.lang = "ar-JO";
     recRef.current = rec;
-    rec.onresult = (e: { results: SpeechRecognitionResultList }) => {
+    rec.onresult = (e: { results: SpeechRecognitionResultList }) =>
       setInputText(Array.from(e.results).map((r: SpeechRecognitionResult) => r[0].transcript).join(""));
-    };
     rec.onend = () => setListening(false);
     rec.onerror = () => setListening(false);
-    rec.start();
-    setListening(true);
+    rec.start(); setListening(true);
   }, [listening]);
-
-  const handleClear = () => {
-    setInputText(""); setTokens([]); setCurrent(0); setPlaying(false);
-    if (skipTimerRef.current) clearTimeout(skipTimerRef.current);
-  };
 
   if (!user) return null;
 
   const currentToken = tokens[current] ?? null;
   const hasTokens = tokens.length > 0;
+  const videoTokens = tokens.filter(t => t.video);
+  const progress = hasTokens ? (current + 1) / tokens.length : 0;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <div className="bg-primary text-primary-foreground px-4 py-3 flex items-center gap-3 sticky top-0 z-40">
-        <button onClick={() => setLocation("/home")} className="flex items-center gap-2 text-primary-foreground/80 hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-white/10">
-          <ArrowLeft className="w-5 h-5" /><span className="text-sm font-medium">Back</span>
+    <div className="min-h-screen bg-black flex flex-col">
+      {/* Top bar */}
+      <div className="flex items-center gap-3 px-4 py-3 bg-black/90 backdrop-blur border-b border-white/10 sticky top-0 z-40">
+        <button
+          onClick={() => setLocation("/home")}
+          className="flex items-center gap-1.5 text-white/70 hover:text-white transition-colors px-2 py-1 rounded-lg hover:bg-white/10"
+        >
+          <ArrowLeft className="w-4 h-4" /><span className="text-sm">Back</span>
         </button>
-        <div className="flex-1 text-center">
-          <h1 className="font-serif font-bold text-lg">Text → Sign</h1>
-          <p className="text-primary-foreground/70 text-xs">Type or speak — watch the signs</p>
+
+        <div className="flex-1 flex items-center gap-2 min-w-0">
+          {hasTokens && !showInput ? (
+            /* Sentence preview — click to edit */
+            <button
+              onClick={() => setShowInput(s => !s)}
+              className="flex-1 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/8 hover:bg-white/12 transition-colors text-left min-w-0 border border-white/10"
+            >
+              <span className="text-white/80 text-sm truncate flex-1" dir="rtl">{inputText}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-white/40 flex-shrink-0 transition-transform ${showInput ? "rotate-180" : ""}`} />
+            </button>
+          ) : (
+            <div className="flex-1 text-center">
+              <span className="text-white/90 font-serif font-semibold">Text → Sign</span>
+            </div>
+          )}
         </div>
-        <div className="w-16" />
+
+        {hasTokens && (
+          <button onClick={handleClear} className="text-white/50 hover:text-white/90 transition-colors p-1.5 rounded-lg hover:bg-white/10">
+            <Trash2 className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
-      <div className="flex-1 flex flex-col lg:flex-row">
-        {/* Left: Input */}
-        <div className="w-full lg:w-96 xl:w-[420px] border-r border-border bg-card flex flex-col">
-          <div className="p-4 border-b border-border">
-            <p className="font-semibold text-sm text-foreground mb-0.5">Your message</p>
-            <p className="text-xs text-muted-foreground">Type in Arabic or English. Each word will play as a JSL sign video.</p>
-          </div>
-          <div className="p-4 space-y-3 flex-1 flex flex-col">
-            <textarea
-              value={inputText}
-              onChange={e => setInputText(e.target.value)}
-              onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleConvert(); } }}
-              placeholder={"مثال: مرحبا أنا طالب\nExample: hello i want food"}
-              rows={5}
-              className="w-full resize-none rounded-xl border border-input bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
-            />
-            <div className="flex items-center gap-2">
-              {hasVoice && (
-                <Button variant={listening ? "destructive" : "outline"} onClick={toggleListening} className={`gap-2 h-10 ${listening ? "animate-pulse" : ""}`}>
-                  {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                  {listening ? "Stop" : "Speak"}
+      {/* Collapsible input panel */}
+      <AnimatePresence>
+        {showInput && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden bg-zinc-950 border-b border-white/10"
+          >
+            <div className="p-4 space-y-3">
+              <textarea
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleConvert(); } }}
+                placeholder={"مثال: مرحبا أنا طالب أدرس جامعة\nExample: hello i want food"}
+                rows={3}
+                autoFocus
+                className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-base text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-primary/60 transition-shadow"
+              />
+              <div className="flex items-center gap-2">
+                {hasVoice && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleListening}
+                    className={`gap-2 border-white/20 text-white hover:bg-white/10 bg-transparent ${listening ? "border-red-400 text-red-400 animate-pulse" : ""}`}
+                  >
+                    {listening ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
+                    {listening ? "Stop" : "Speak"}
+                  </Button>
+                )}
+                {/* Badge picker */}
+                <div className="flex-1 flex flex-wrap gap-1.5 overflow-hidden max-h-8">
+                  {SIGN_BADGES.slice(0, 8).map(v => (
+                    <button
+                      key={v.file}
+                      onClick={() => setInputText(t => t ? t + " " + v.ar : v.ar)}
+                      className="text-xs px-2 py-0.5 rounded-full bg-white/10 hover:bg-primary/30 text-white/70 hover:text-white transition-colors border border-white/10"
+                    >
+                      {v.ar}
+                    </button>
+                  ))}
+                </div>
+                <Button
+                  onClick={handleConvert}
+                  disabled={!inputText.trim()}
+                  size="sm"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 flex-shrink-0"
+                >
+                  <Send className="w-3.5 h-3.5" /> Play
                 </Button>
-              )}
-              {(inputText || hasTokens) && (
-                <Button variant="ghost" onClick={handleClear} className="h-10 text-muted-foreground hover:text-destructive gap-1.5">
-                  <Trash2 className="w-4 h-4" /> Clear
-                </Button>
-              )}
-              <Button onClick={handleConvert} disabled={!inputText.trim()} className="ml-auto h-10 gap-2 bg-primary text-primary-foreground hover:bg-primary/90 px-6">
-                <Send className="w-4 h-4" /> Show Signs
-              </Button>
+              </div>
             </div>
-            {listening && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 px-3 py-2 bg-destructive/5 border border-destructive/20 rounded-xl">
-                <motion.div className="w-2 h-2 rounded-full bg-red-500" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 0.8, repeat: Infinity }} />
-                <span className="text-sm text-destructive font-medium">Listening in Arabic…</span>
-              </motion.div>
-            )}
-          </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-          {/* Dictionary legend */}
-          <div className="p-4 border-t border-border mt-auto">
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">22 known signs</p>
-            <div className="flex flex-wrap gap-1.5">
-              {Object.values(
-                Object.fromEntries(
-                  Object.values(VIDEO_MAP).map(v => [v.file, v])
-                )
-              ).map(v => (
-                <Badge key={v.file} variant="secondary" className="text-xs cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors"
-                  onClick={() => { setInputText(t => t ? t + " " + v.ar : v.ar); }}>
+      {/* ── Main player ── */}
+      <div className="flex-1 flex flex-col bg-black">
+        {!hasTokens ? (
+          /* Empty state */
+          <div className="flex-1 flex flex-col items-center justify-center gap-6 text-center px-6">
+            <div className="text-6xl">🤲</div>
+            <div className="space-y-2 max-w-sm">
+              <p className="text-white font-semibold text-xl">Write a sentence above</p>
+              <p className="text-white/50 text-sm leading-relaxed">
+                Type a sentence — or tap a word badge — then press <strong className="text-white/70">Play</strong>.
+                Each word plays as one continuous sign sequence.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center max-w-md">
+              {SIGN_BADGES.map(v => (
+                <button
+                  key={v.file}
+                  onClick={() => { setInputText(t => t ? t + " " + v.ar : v.ar); setShowInput(true); }}
+                  className="text-sm px-3 py-1.5 rounded-full bg-white/8 hover:bg-primary/25 text-white/70 hover:text-white transition-colors border border-white/10"
+                >
                   {v.ar}
-                </Badge>
+                </button>
               ))}
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex-1 flex flex-col">
+            {/* Video — takes up all available space */}
+            <div className="relative flex-1 bg-black flex items-center justify-center min-h-0">
+              <AnimatePresence mode="wait">
+                {currentToken?.video ? (
+                  <motion.div
+                    key={`v-${current}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <video
+                      ref={videoRef}
+                      src={`${import.meta.env.BASE_URL}signs/${currentToken.video.file}`}
+                      onEnded={advance}
+                      muted
+                      playsInline
+                      className="w-full h-full object-contain"
+                    />
+                  </motion.div>
+                ) : currentToken ? (
+                  <motion.div
+                    key={`t-${current}`}
+                    initial={{ opacity: 0, scale: 0.92 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+                  >
+                    <p className="text-5xl md:text-7xl font-bold text-white text-center" dir="rtl">{currentToken.display}</p>
+                    <p className="text-white/40 text-sm">No sign video for this word</p>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
 
-        {/* Right: Video player */}
-        <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6 bg-background">
-          {!hasTokens ? (
-            <div className="text-center space-y-4 max-w-sm">
-              <div className="w-20 h-20 rounded-full bg-muted mx-auto flex items-center justify-center text-4xl">🤲</div>
-              <p className="text-foreground font-semibold text-lg">Ready to translate</p>
-              <p className="text-muted-foreground text-sm">
-                Type a sentence on the left — or tap any sign badge to add it — then press <strong>Show Signs</strong>.
-                Videos from Sign Mahmoud will play one word at a time.
-              </p>
+              {/* Current word overlay — top left */}
+              {currentToken?.video && (
+                <div className="absolute top-4 left-0 right-0 flex items-center justify-center pointer-events-none">
+                  <motion.div
+                    key={current}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/15"
+                  >
+                    <span className="text-white font-bold text-lg" dir="rtl">{currentToken.video.ar}</span>
+                    <span className="text-white/50 text-sm">·</span>
+                    <span className="text-white/70 text-sm">{currentToken.video.en}</span>
+                  </motion.div>
+                </div>
+              )}
+
+              {/* Word index */}
+              <div className="absolute top-4 right-4 text-white/40 text-xs font-mono">
+                {current + 1} / {tokens.length}
+              </div>
             </div>
-          ) : (
-            <div className="w-full max-w-2xl space-y-5">
-              {/* Word strip */}
-              <div className="flex flex-wrap gap-2 justify-center">
+
+            {/* ── Bottom controls ── */}
+            <div className="bg-zinc-950 border-t border-white/10 px-4 pt-3 pb-4 space-y-3">
+              {/* Progress bar */}
+              <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-primary rounded-full"
+                  animate={{ width: `${progress * 100}%` }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
+
+              {/* Word chips — scrollable row */}
+              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                 {tokens.map((tok, idx) => (
                   <button
                     key={idx}
                     onClick={() => goTo(idx)}
-                    className={`px-3 py-1.5 rounded-xl text-sm font-medium transition-all border-2 ${
+                    className={`flex-shrink-0 px-3 py-1 rounded-full text-sm font-medium transition-all border ${
                       idx === current
-                        ? "bg-primary text-primary-foreground border-primary scale-105 shadow-md"
+                        ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/30 scale-105"
+                        : idx < current
+                        ? "bg-white/5 text-white/30 border-white/10 line-through"
                         : tok.video
-                        ? "bg-card border-border hover:border-primary/40 text-foreground"
-                        : "bg-muted/50 border-dashed border-muted-foreground/30 text-muted-foreground"
+                        ? "bg-white/8 text-white/70 border-white/15 hover:bg-white/15"
+                        : "bg-transparent text-white/25 border-dashed border-white/15"
                     }`}
                   >
                     {tok.display}
-                    {!tok.video && <span className="ml-1 text-xs opacity-50">?</span>}
                   </button>
                 ))}
               </div>
 
-              {/* Video / card */}
-              <div className="relative rounded-2xl overflow-hidden bg-black aspect-video shadow-xl border border-border">
-                <AnimatePresence mode="wait">
-                  {currentToken?.video ? (
-                    <motion.div key={current} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="absolute inset-0">
-                      <video
-                        ref={videoRef}
-                        key={currentToken.video.file}
-                        src={`${import.meta.env.BASE_URL}signs/${currentToken.video.file}`}
-                        onEnded={handleVideoEnded}
-                        muted
-                        playsInline
-                        className="w-full h-full object-contain bg-black"
-                      />
-                    </motion.div>
-                  ) : currentToken ? (
-                    <motion.div key={`text-${current}`} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-primary/10 to-background p-8">
-                      <p className="text-5xl font-bold text-foreground text-center" dir="rtl">{currentToken.display}</p>
-                      <p className="text-muted-foreground text-sm">No sign video yet for this word</p>
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
-
-                {/* Current word label overlay */}
-                {currentToken?.video && (
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-                    <Badge className="bg-black/60 text-white border-0 text-base px-3 py-1" dir="rtl">
-                      {currentToken.video.ar}
-                    </Badge>
-                    <Badge className="bg-black/60 text-white border-0">
-                      {currentToken.video.en}
-                    </Badge>
-                  </div>
-                )}
-
-                {/* Progress */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-                  <div
-                    className="h-full bg-primary transition-all duration-300"
-                    style={{ width: `${((current + 1) / tokens.length) * 100}%` }}
-                  />
-                </div>
-              </div>
-
-              {/* Controls */}
-              <div className="flex items-center justify-center gap-3">
-                <Button variant="outline" size="icon" onClick={() => goTo(0)} disabled={current === 0 && !playing} className="rounded-full w-10 h-10">
-                  <RotateCcw className="w-4 h-4" />
-                </Button>
-                <Button variant="outline" size="icon" onClick={() => goTo(current - 1)} disabled={current === 0} className="rounded-full w-10 h-10">
-                  <SkipBack className="w-4 h-4" />
-                </Button>
-                <Button
-                  size="icon"
-                  onClick={() => setPlaying(p => !p)}
-                  className="rounded-full w-14 h-14 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+              {/* Transport controls */}
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  onClick={() => goTo(0)}
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors"
                 >
-                  {playing ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-0.5" />}
-                </Button>
-                <Button variant="outline" size="icon" onClick={() => goTo(current + 1)} disabled={current === tokens.length - 1} className="rounded-full w-10 h-10">
-                  <SkipForward className="w-4 h-4" />
-                </Button>
-                <div className="ml-2 text-sm text-muted-foreground">
-                  {current + 1} / {tokens.length}
-                </div>
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => goTo(current - 1)}
+                  disabled={current === 0}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-25"
+                >
+                  <SkipBack className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setPlaying(p => !p)}
+                  className="w-16 h-16 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center shadow-xl shadow-primary/30 transition-all active:scale-95"
+                >
+                  {playing
+                    ? <Pause className="w-7 h-7 text-primary-foreground" />
+                    : <Play className="w-7 h-7 text-primary-foreground ml-0.5" />}
+                </button>
+                <button
+                  onClick={() => goTo(current + 1)}
+                  disabled={current === tokens.length - 1}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-25"
+                >
+                  <SkipForward className="w-5 h-5" />
+                </button>
+                <Badge className={`text-xs border-0 w-9 h-9 items-center justify-center rounded-full ${videoTokens.length === tokens.length ? "bg-green-500/20 text-green-400" : "bg-white/10 text-white/50"}`}>
+                  {videoTokens.length}/{tokens.length}
+                </Badge>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
