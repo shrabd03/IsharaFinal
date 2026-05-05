@@ -301,7 +301,7 @@ export function SpeechToSignTranslation() {
           )}
 
           {!supported && (
-            <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm">
+            <div className="flex items-start gap-2 p-3 rounded-lg bg-primary/10 text-primary dark:text-primary text-sm">
               <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
               <p>Your browser does not support live speech recognition. Try Chrome or Edge.</p>
             </div>

@@ -37,8 +37,8 @@ export function Navbar() {
     <nav className="bg-primary text-primary-foreground sticky top-0 z-50 shadow-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/home" className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-teal-400/20 flex items-center justify-center">
-            <div className="w-3 h-3 rounded-full bg-teal-300" />
+          <div className="w-8 h-8 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+            <div className="w-3 h-3 rounded-full bg-primary-foreground/60" />
           </div>
           <span className="font-semibold text-xl tracking-tight">Ishara</span>
         </Link>

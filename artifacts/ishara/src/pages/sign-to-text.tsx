@@ -234,7 +234,7 @@ export default function SignToText() {
             <div className="flex gap-2">
               {detectedLog.length > 0 && (
                 <>
-                  <Button variant="ghost" size="sm" onClick={handleSaveToHistory} className="h-8 gap-1.5 text-teal-600 hover:text-teal-700 hover:bg-teal-50">
+                  <Button variant="ghost" size="sm" onClick={handleSaveToHistory} className="h-8 gap-1.5 text-primary hover:text-primary/80 hover:bg-primary/5">
                     {saved ? <Check className="w-3.5 h-3.5 text-green-500" /> : <BookmarkPlus className="w-3.5 h-3.5" />}
                     {saved ? "Saved!" : "Save"}
                   </Button>

@@ -150,18 +150,18 @@ export default function History() {
                       exit={{ opacity: 0, x: 8, height: 0, marginBottom: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Card className={`border ${entry.type === "sign-to-text" ? "border-teal-200 bg-gradient-to-br from-teal-50/60 to-background" : "border-yellow-200 bg-gradient-to-br from-yellow-50/60 to-background"}`}>
+                      <Card className={`border ${entry.type === "sign-to-text" ? "border-primary/30 bg-gradient-to-br from-primary/5 to-background" : "border-secondary/50 bg-gradient-to-br from-secondary/20 to-background"}`}>
                         <CardContent className="p-4">
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex items-start gap-3 flex-1 min-w-0">
-                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${entry.type === "sign-to-text" ? "bg-teal-100 text-teal-700" : "bg-yellow-100 text-yellow-700"}`}>
+                              <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${entry.type === "sign-to-text" ? "bg-primary/10 text-primary" : "bg-secondary text-secondary-foreground"}`}>
                                 {entry.type === "sign-to-text"
                                   ? <Camera className="w-4 h-4" />
                                   : <Type className="w-4 h-4" />}
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">
-                                  <Badge className={`text-xs border-0 ${entry.type === "sign-to-text" ? "bg-teal-100 text-teal-700" : "bg-yellow-100 text-yellow-800"}`}>
+                                  <Badge className={`text-xs border-0 ${entry.type === "sign-to-text" ? "bg-primary/10 text-primary" : "bg-secondary text-secondary-foreground"}`}>
                                     {entry.type === "sign-to-text" ? "Sign → Text" : "Text → Sign"}
                                   </Badge>
                                   <span className="text-xs text-muted-foreground">{formatTime(entry.timestamp)}</span>

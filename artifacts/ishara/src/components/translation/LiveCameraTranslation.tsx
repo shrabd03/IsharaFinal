@@ -150,7 +150,7 @@ export function LiveCameraTranslation() {
               </Badge>
             )}
             {backendStatus === "offline" && (
-              <Badge variant="outline" className="text-amber-700 border-amber-500/30 gap-1">
+              <Badge variant="outline" className="text-primary border-primary/30 gap-1">
                 <AlertCircle className="w-3 h-3" /> Backend offline
               </Badge>
             )}

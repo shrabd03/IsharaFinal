@@ -57,8 +57,8 @@ export function AccessibilityBar() {
           <div className="flex gap-1.5">
             {[
               { id: 'dark', color: 'bg-slate-900' },
-              { id: 'teal', color: 'bg-teal-800' },
-              { id: 'amber', color: 'bg-amber-700' },
+              { id: 'purple', color: 'bg-purple-800' },
+              { id: 'violet', color: 'bg-violet-600' },
               { id: 'plum', color: 'bg-fuchsia-900' },
             ].map(swatch => (
               <button

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export type Preferences = {
   fontSize: number;
-  textColor: 'dark' | 'teal' | 'amber' | 'plum';
+  textColor: 'dark' | 'purple' | 'violet' | 'plum';
   displayMode: 'normal' | 'high-contrast' | 'dark';
   soundEnabled: boolean;
 };
