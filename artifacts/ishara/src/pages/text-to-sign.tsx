@@ -195,8 +195,7 @@ export default function TextToSign() {
     const tok = tokens[current];
     if (tok.video) {
       if (videoRef.current) {
-        const newSrc = `http://127.0.0.1:8000/signs/${tok.video.file}`;
-        if (videoRef.current.src !== newSrc) {
+        const newSrc = `https://isharafinal.onrender.com/signs/${tok.video.file}`;        if (videoRef.current.src !== newSrc) {
           videoRef.current.src = newSrc;
         }
         if (playing) {
