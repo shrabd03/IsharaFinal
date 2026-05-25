@@ -10,7 +10,8 @@ import { Badge }      from "@/components/ui/badge";
 import { useAuth }    from "@/hooks/use-auth";
 import { useHistory } from "@/hooks/use-history";
 
-const PREDICT_ENDPOINT = `${import.meta.env.VITE_API_URL ?? "http://localhost:8000"}/predict/frames`;
+const PREDICT_ENDPOINT = "https://isharafinal.onrender.com/predict/frames";
+
 /**
  * FRAME COLLECTION STRATEGY
  * Training: 60 frames uniformly sampled from a 2-3 second video clip.
