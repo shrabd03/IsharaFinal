@@ -53,7 +53,7 @@ export default function Settings() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-primary text-primary-foreground sticky top-0 z-50 shadow-md">
+      <header className="sticky top-0 z-50 shadow-md text-white" style={{ backgroundColor: "#1F768E" }}>
         <div className="container mx-auto px-4 h-16 flex items-center gap-4">
           <button onClick={() => setLocation("/home")} className="flex items-center gap-2 text-primary-foreground/80 hover:text-white transition-colors">
             <ArrowLeft className="w-5 h-5" />

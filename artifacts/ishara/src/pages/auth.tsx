@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Hand, Eye, EyeOff, Chrome } from "lucide-react";
+import { Ear, Eye, EyeOff, Chrome } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -93,11 +93,11 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary blur-[100px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-secondary blur-[100px]" />
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      {/* Two-color background: left half light green, right half light purple */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(135deg, #1F768E 0%, #4d8ea8 35%, #7d7db8 65%, #9071CE 100%)" }} />
+      {/* Subtle radial depth */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 25% 50%, rgba(31,118,142,0.3) 0%, transparent 55%), radial-gradient(ellipse at 80% 40%, rgba(144,113,206,0.3) 0%, transparent 55%)" }} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -107,7 +107,7 @@ export default function Auth() {
       >
         <div className="text-center mb-8 flex flex-col items-center">
           <div className="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
-            <WavingHand className="w-9 h-9" />
+            <Ear className="w-9 h-9" />
           </div>
           <h1 className="text-3xl font-serif text-foreground mb-2">Welcome to Ishara</h1>
           <p className="text-muted-foreground">A calm, dignified space for Jordanian Sign Language.</p>

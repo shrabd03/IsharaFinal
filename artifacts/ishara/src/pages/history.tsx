@@ -67,7 +67,7 @@ export default function History() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="bg-primary text-primary-foreground sticky top-0 z-50 shadow-md">
+      <header className="sticky top-0 z-50 shadow-md text-white" style={{ backgroundColor: "#1F768E" }}>
         <div className="container mx-auto px-4 h-16 flex items-center gap-4">
           <button
             onClick={() => setLocation("/home")}

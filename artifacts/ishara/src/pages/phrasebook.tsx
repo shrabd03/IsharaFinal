@@ -176,10 +176,10 @@ export default function Phrasebook() {
       <Navbar />
 
       <main className="flex-1">
-        <div className="bg-primary text-primary-foreground py-10">
+        <div className="text-white py-10" style={{ backgroundColor: "#1F768E" }}>
           <div className="container mx-auto px-4 max-w-6xl">
             <h1 className="text-3xl md:text-4xl font-serif font-bold mb-2">Phrasebook</h1>
-            <p className="text-primary-foreground/80 max-w-xl">
+            <p className="text-white/80 max-w-xl">
               Choose a situation below. Tap any phrase to show it in large text to the person you're talking with.
             </p>
           </div>

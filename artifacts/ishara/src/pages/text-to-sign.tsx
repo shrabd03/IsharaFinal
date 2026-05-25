@@ -195,7 +195,7 @@ export default function TextToSign() {
     const tok = tokens[current];
     if (tok.video) {
       if (videoRef.current) {
-        const newSrc = `${import.meta.env.BASE_URL}signs/${tok.video.file}`;
+        const newSrc = `http://127.0.0.1:8000/signs/${tok.video.file}`;
         if (videoRef.current.src !== newSrc) {
           videoRef.current.src = newSrc;
         }

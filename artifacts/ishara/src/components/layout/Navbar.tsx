@@ -1,6 +1,6 @@
 import { useLocation } from "wouter";
 import { Link } from "wouter";
-import { LogOut, Book, MessageSquare, Home, Settings, Phone, History } from "lucide-react";
+import { LogOut, Book, MessageSquare, Home, Settings, Phone, History, Ear } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/use-auth";
@@ -34,11 +34,11 @@ export function Navbar() {
     .slice(0, 2);
 
   return (
-    <nav className="bg-primary text-primary-foreground sticky top-0 z-50 shadow-md">
+    <nav className="sticky top-0 z-50 shadow-md text-white" style={{ backgroundColor: "#135F73" }}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/home" className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-            <div className="w-3 h-3 rounded-full bg-primary-foreground/60" />
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+            <Ear className="w-4 h-4 text-white" />
           </div>
           <span className="font-semibold text-xl tracking-tight">Ishara</span>
         </Link>
